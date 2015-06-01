@@ -1,4 +1,5 @@
-import model.thread.LogicThread;
+import view.MainFrame;
+
 
 
 public class Main
@@ -7,6 +8,6 @@ public class Main
 	
 	public static void main(String[] args) 
 	{
-			new LogicThread().start();
+		new MainFrame();
 	}
 }
