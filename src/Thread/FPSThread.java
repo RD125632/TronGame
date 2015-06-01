@@ -1,4 +1,4 @@
-package model.thread;
+package Thread;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

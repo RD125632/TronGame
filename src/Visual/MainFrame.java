@@ -1,13 +1,13 @@
-package view;
+package Visual;
+
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 
-import model.thread.FPSThread;
-import model.thread.LogicThread;
-import view.panel.GamePanel;
+import Thread.FPSThread;
+import Thread.LogicThread;
 
 public class MainFrame extends JFrame{
 
