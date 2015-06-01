@@ -1,4 +1,12 @@
+import model.thread.LogicThread;
 
-public class main {
 
+public class Main
+{
+	private Main(){}
+	
+	public static void main(String[] args) 
+	{
+			new LogicThread().start();
+	}
 }
