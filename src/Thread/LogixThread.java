@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.Timer;
 
-import Logix.StateHandler;
+import Logix.LogixHandler;
 
 
 
@@ -14,12 +14,13 @@ public class LogixThread extends Thread implements ActionListener {
 	@SuppressWarnings("unused")
 	private Thread thread;
 	private Timer timer;
-	private StateHandler states;
+	private LogixHandler control;
 	
-   public LogixThread(StateHandler states)
+   public LogixThread(LogixHandler controller)
    {
 	   thread = this;
 	   timer = new Timer(1000/20, this);
+	   control = controller;
    }
    
    @Override
@@ -34,7 +35,7 @@ public class LogixThread extends Thread implements ActionListener {
    @Override
    public void actionPerformed(ActionEvent arg0) 
    {
-	   states.getCurrentState().update();
+	   control.getStatesHandler().getCurrentState().update();
    }
 
 }

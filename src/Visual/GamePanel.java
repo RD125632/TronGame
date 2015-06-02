@@ -4,31 +4,38 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
+import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
-import Logix.KeyHandler;
-import Logix.StateHandler;
+import Logix.LogixHandler;
 import Thread.FPSThread;
 import Thread.LogixThread;
 
-public class GamePanel extends JPanel implements KeyListener {
+public class GamePanel extends JPanel implements KeyListener, MouseListener {
 
 	private static final long serialVersionUID = 1L;
-	private StateHandler states;
-	private KeyHandler key;
+	private LogixHandler control;
 	
 	public GamePanel()
 	{
 		super();
-		setFocusable(true);
+
+
+		control = new LogixHandler();
 		startThreads();
-		key = new KeyHandler();
+		
+		setFocusable(true);
+		addKeyListener(this);
+		requestFocusInWindow();
 	}
 
 	private void startThreads()
 	{
-		new LogixThread(states).start();
+		new LogixThread(control).start();
 		new FPSThread(this).start();
 	}
 	
@@ -37,25 +44,54 @@ public class GamePanel extends JPanel implements KeyListener {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
 		
-		states.getCurrentState().draw(g2);
+		control.getStatesHandler().getCurrentState().setFrame((JFrame) SwingUtilities.getWindowAncestor(this));
+		control.getStatesHandler().getCurrentState().draw(g2);
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e) 
 	{
-		key.Event(e);
+		control.getEventHandler().MenuKeyEvent(e);
 	}
 
+	@Override
+	public void mousePressed(MouseEvent e) {
+		control.getEventHandler().MenuMouseEvent(e);
+		
+	}
+	
+	
+	
 	@Override
 	public void keyReleased(KeyEvent arg0) {
 		// TODO Auto-generated method stub
 		
 	}
-
 	@Override
 	public void keyTyped(KeyEvent arg0) {
 		// TODO Auto-generated method stub
 		
 	}
 
+
+	@Override
+	public void mouseReleased(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseClicked(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseEntered(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseExited(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
 }
