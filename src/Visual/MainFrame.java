@@ -6,9 +6,6 @@ import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 
-import Thread.FPSThread;
-import Thread.LogicThread;
-
 public class MainFrame extends JFrame{
 
 	private static final long serialVersionUID = 1L;
@@ -24,14 +21,6 @@ public class MainFrame extends JFrame{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setContentPane(panel);
 		setVisible(true);
-		
-		startThreads();
-	}
-	
-	private void startThreads()
-	{
-		new LogicThread().start();
-		new FPSThread(panel).start();
 		
 	}
 

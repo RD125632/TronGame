@@ -5,15 +5,18 @@ import java.awt.event.ActionListener;
 
 import javax.swing.Timer;
 
+import Logix.StateHandler;
 
 
-public class LogicThread extends Thread implements ActionListener {
+
+public class LogixThread extends Thread implements ActionListener {
 	
 	@SuppressWarnings("unused")
 	private Thread thread;
 	private Timer timer;
+	private StateHandler states;
 	
-   public LogicThread()
+   public LogixThread(StateHandler states)
    {
 	   thread = this;
 	   timer = new Timer(1000/20, this);
@@ -31,7 +34,7 @@ public class LogicThread extends Thread implements ActionListener {
    @Override
    public void actionPerformed(ActionEvent arg0) 
    {
-	
+	   states.getCurrentState().update();
    }
 
 }
