@@ -1,9 +1,6 @@
 package Logix.State;
 
 import java.awt.Graphics2D;
-import java.awt.event.KeyEvent;
-
-import javax.swing.JFrame;
 
 import Logix.State.GameState;
 
@@ -28,21 +25,22 @@ public class PlayState extends GameState {
 	}
 
 	@Override
-	public void setFrame(JFrame f) {
+	public String selectItem() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void selectNext() {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void keyPressed(KeyEvent e) {
+	public void selectBack() {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
-	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
 
 }

@@ -5,29 +5,29 @@ import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.awt.event.KeyEvent;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JFrame;
+import Visual.GamePanel;
 
-import Logix.State.GameState;
 
 public class MenuState extends GameState {
 	
 	private Font menuFont;
-	private JFrame frame;
+	private GamePanel panel;
 	private List<String> string;
-	private int y, selectedIndex;
+	private int selectedIndex;
 	
-	public MenuState()
+	
+	public MenuState(GamePanel f)
 	{	
-		
+		panel = f;
 		string = new ArrayList<String>();
-		string.add("Start");
-		string.add("Options");
+		string.add("Join Game");
+		string.add("Host Game");
 		string.add("Exit");
 		
 		selectedIndex = 0;
@@ -46,9 +46,8 @@ public class MenuState extends GameState {
 	@Override
 	public void draw(Graphics2D g2) 
 	{
-		g2.setPaint(Color.BLACK);
-		g2.setFont(menuFont.deriveFont(72f));
 		
+		g2.setFont(menuFont.deriveFont(72f));
 		g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 		
 		drawMenu(g2);
@@ -59,29 +58,22 @@ public class MenuState extends GameState {
 	{
 		for(int i = 0; i <= string.size() - 1 ; i++)
 		{
-			System.out.println(string.get(i));
-			
+		
 			if(selectedIndex == i)
 			{
-				g2.setPaint(Color.red);
+				g2.setPaint(new Color(143, 213, 223));
 			}
 			else
 			{
-				g2.setPaint(Color.black);
+				g2.setPaint(Color.white);
 			}
 			
-			g2.drawString(string.get(i), 150, (frame.getHeight() / 2) + i * 100);
+			g2.drawString(string.get(i), 150, (panel.getParent().getHeight() / 2) + i * 100);
 			
 		}
 		
 	}
 		
-	
-	@Override
-	public void setFrame(JFrame f)
-	{
-		frame = f;
-	}
 	
 	public String selectItem()
 	{
@@ -116,16 +108,5 @@ public class MenuState extends GameState {
 
 	}
 
-	@Override
-	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
 
 }

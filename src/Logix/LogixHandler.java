@@ -4,18 +4,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Logix.Objects.Player;
+import Visual.GamePanel;
+
 
 public class LogixHandler {
 
 	private List<Player> players;
+	private GamePanel panel;
 	
 	private StateHandler statesHandler;
 	private EventHandler eventHandler;
 	
-	public LogixHandler()
+	public LogixHandler(GamePanel f)
 	{
+		panel = f;
 		setPlayers(new ArrayList<Player>());
-		statesHandler = new StateHandler();
+		statesHandler = new StateHandler(panel);
 		eventHandler = new EventHandler(statesHandler);
 	}
 
@@ -36,7 +40,10 @@ public class LogixHandler {
 
 	public void setPlayers(List<Player> players) {
 		this.players = players;
+	}
+
+
+	public GamePanel getFrame() {
+		return panel;
 	}	
-	
-	
 }

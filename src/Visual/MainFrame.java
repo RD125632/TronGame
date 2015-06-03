@@ -1,9 +1,5 @@
 package Visual;
 
-
-import java.awt.Dimension;
-import java.awt.Toolkit;
-
 import javax.swing.JFrame;
 
 public class MainFrame extends JFrame{
@@ -15,9 +11,8 @@ public class MainFrame extends JFrame{
 	{
 		super("MainFrame");
 		
-		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		setSize((int)screenSize.getWidth(), (int)screenSize.getHeight());
-		
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
+		setUndecorated(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setContentPane(panel);
 		setVisible(true);

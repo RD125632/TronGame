@@ -1,9 +1,9 @@
 package Logix;
 
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
 
-import Logix.State.MenuState;
+import Logix.State.GameState;
+import Logix.State.JoinFormState;
 
 public class EventHandler {
 
@@ -17,41 +17,58 @@ public class EventHandler {
 	{
 		int keyCode = e.getKeyCode();
 
-		if(statesHandler.getCurrentState() instanceof MenuState)
+		if(statesHandler.getIndex() < 3)
 		{
-			MenuState menu = (MenuState)statesHandler.getCurrentState();
+			GameState state = statesHandler.getCurrentState();
 			
 			switch( keyCode ) 
 			{ 
 	        	case KeyEvent.VK_UP:
-	        		menu.selectBack();	
+	        		state.selectBack();	
 	            break;
 	        case KeyEvent.VK_DOWN:
-	        		menu.selectNext();	
+	        	state.selectNext();	
 	            break;
 	        case KeyEvent.VK_ENTER :
-	        		String item = menu.selectItem();
+	        		String item = state.selectItem();
 	        		switch( item ) 
 	    			{ 
-	        			case "Start" : 
-	        				statesHandler.next();
-	        				break;
-	        			case "Options" :
-	        				System.out.println("OPTIONS");
-	        				break;
+        			case "Join Game" :
+        				statesHandler.next();
+        				break;
+        			case "Host Game" :
+        				statesHandler.select(statesHandler.getIndex() + 2);
+        				break;
+        			case "Back" :
+        				statesHandler.back();
+        				break;
 	        			case "Exit" :
 	        				System.exit(0);
 	        				break;
 	    			}
 	        	break;
-			}
-			
+			}	
 		}
 	}
 	
-	public void MenuMouseEvent(MouseEvent e)
+	public void InputFieldEvent(KeyEvent e)
 	{
+		if(statesHandler.getCurrentState() instanceof JoinFormState)
+		{
+			JoinFormState menu = (JoinFormState)statesHandler.getCurrentState();
+			
+			if(e.getKeyCode() == KeyEvent.VK_BACK_SPACE)
+			{
+				menu.getNameBox().backspace();
+			}
+			else if(e.getKeyCode() >= 65 && e.getKeyCode() <= 90)
+			{
+				menu.getNameBox().updateText(e.getKeyChar());
+			}
+			
 		
+		}
+			
 	}
 	
 }
