@@ -3,46 +3,53 @@ package Logix.Networking;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.net.ServerSocket;
 import java.net.Socket;
 
 public class Client {
 
-		// IO streams
-	  	private DataOutputStream toServer;
-	  	private DataInputStream fromServer;
+	private Socket clientSocket;
+	// IO streams
+	private DataOutputStream toServer;
+	private DataInputStream fromServer;
+	private String serverIP;
 
-	  	public Client() 
-	  	{
-	  		try 
-	  		{
-	  			// Create a socket to connect to the server
-	  			Socket socket = new Socket("localhost", 8000);
-	      
-	  			// Create an input stream to receive data from the server
-	  			fromServer = new DataInputStream(socket.getInputStream());
+	public Client(String ip) 
+	{
+		serverIP = ip;
+	}
 
-	  			// Create an output stream to send data to the server
-	  			toServer = new DataOutputStream(socket.getOutputStream());
-	  		}
-	  		catch (IOException e) 
-	  		{
-	  			e.printStackTrace();
-	  		}
-	  }
+	public void start()
+	{
+		 try {
+         	clientSocket = new Socket(serverIP, 8000);
+             System.out.println("Waiting for clients to connect...");
+         } catch (IOException e) {
+             System.err.println("Unable to process client request");
+             e.printStackTrace();
+         }
+		
+		Runnable clientTask = new Runnable() {
+            @Override
+            public void run() {
+            	 System.err.println("LOOP");
+            }
+        };
+        
+        Thread clientThread = new Thread(clientTask);
+        clientThread.start();
+	}
+	
+	public Socket getClientSocket() {
+		return clientSocket;
+	}
 
-	  	/*
-	  	public void writeToServer()
-	  	{
-	  		try 
-	  		{
-		        // Send the radius to the server
-		        toServer.writeDouble();
-		        toServer.flush();
+	public void setClientSocket(Socket clientSocket) {
+		this.clientSocket = clientSocket;
+	}
+	
 
-		    }
-		    catch (IOException e) 
-	  		{
-		    	e.printStackTrace();
-		    }
-		}*/
+
+	  	
+	  	
 }

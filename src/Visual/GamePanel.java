@@ -53,7 +53,7 @@ public class GamePanel extends JPanel implements KeyListener {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
 		
-		if(control.getStatesHandler().getIndex() < 3)
+		if(control.getStatesHandler().getIndex() < 4)
 		{
 			g2.drawImage(image, null, 0, 0);			
 		}
@@ -66,7 +66,6 @@ public class GamePanel extends JPanel implements KeyListener {
 	public void keyPressed(KeyEvent e) 
 	{
 		control.getEventHandler().MenuKeyEvent(e);
-		control.getEventHandler().InputFieldEvent(e);
 	}
 	
 	@Override

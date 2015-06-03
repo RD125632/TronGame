@@ -1,5 +1,6 @@
 package Visual;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
 public class MainFrame extends JFrame{
@@ -11,6 +12,9 @@ public class MainFrame extends JFrame{
 	{
 		super("MainFrame");
 		
+		ImageIcon image = new ImageIcon(System.getProperty("user.dir") + "/Resource/Image/icon.jpg");
+		
+		setIconImage(image.getImage());
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setUndecorated(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

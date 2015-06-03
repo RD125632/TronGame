@@ -7,13 +7,15 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.io.File;
 import java.io.IOException;
+import java.net.Inet4Address;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
 import Logix.Objects.InputField;
 import Visual.GamePanel;
 
-public class JoinFormState extends GameState{
+public class HostFormState extends GameState{
 	
 	private Font menuFont;
 	private GamePanel panel;
@@ -21,13 +23,13 @@ public class JoinFormState extends GameState{
 	private List<InputField> formList;
 	private int selectedIndex;
 	
-	public JoinFormState(GamePanel p)
+	public HostFormState(GamePanel p)
 	{
 		panel = p;
 		selectedIndex = 0;
 		
 		string = new ArrayList<String>();
-		string.add("Join");
+		string.add("Host");
 		string.add("Back");
 		
 		try 
@@ -38,12 +40,17 @@ public class JoinFormState extends GameState{
 		catch (FontFormatException | IOException e) 
 		{
 			e.printStackTrace();
-		}
+		}		
 		
 		formList = new ArrayList<InputField>();
 		formList.add(new InputField("NAME"));
-		formList.add(new InputField("HOST ADRESS"));
-		formList.add(new InputField("PORT NUMBER"));
+		
+		try {
+			formList.add(new InputField(Inet4Address.getLocalHost().getHostAddress() + ":8000"));
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 	@Override
@@ -53,7 +60,7 @@ public class JoinFormState extends GameState{
 		g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 		
 		drawMenu(g2);
-		
+
 		drawForm(g2);
 	}
 	
@@ -121,7 +128,6 @@ public class JoinFormState extends GameState{
 
 	@Override
 	public void init() {
-		// TODO Auto-generated method stub
 		
 	}
 

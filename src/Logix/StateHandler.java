@@ -24,7 +24,8 @@ public class StateHandler
 		gameStates.clear();
 		gameStates.add(new MenuState(panel));
 		gameStates.add(new JoinFormState(panel));
-		//gameStates.add(new HostState());
+		gameStates.add(new HostFormState(panel));
+		gameStates.add(new SearchState(panel));
 		gameStates.add(new PlayState());
 	}
 	
@@ -35,6 +36,11 @@ public class StateHandler
 	public int getIndex()
 	{
 		return index;
+	}
+	
+	public void setIndex(int newIndex)
+	{
+		index = newIndex;
 	}
 	
 	

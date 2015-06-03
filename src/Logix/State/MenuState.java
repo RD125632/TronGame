@@ -58,16 +58,14 @@ public class MenuState extends GameState {
 	{
 		for(int i = 0; i <= string.size() - 1 ; i++)
 		{
-		
 			if(selectedIndex == i)
-			{
-				g2.setPaint(new Color(143, 213, 223));
-			}
-			else
 			{
 				g2.setPaint(Color.white);
 			}
-			
+			else
+			{
+				g2.setPaint(new Color(143, 213, 223));
+			}
 			g2.drawString(string.get(i), 150, (panel.getParent().getHeight() / 2) + i * 100);
 			
 		}
