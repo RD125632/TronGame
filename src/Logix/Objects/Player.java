@@ -7,16 +7,34 @@ import java.util.List;
 
 public class Player {
 
-	private String name;
+	private String name, direction;
 	private Color tailColor;
 	private List<Point2D> tail;
+	private Point2D position; 
 	
 	public Player(String name, Color color)
 	{
 		this.setName(name);
 		this.setTailColor(color);
 		this.tail = new ArrayList<Point2D>();
+		this.position = new Point2D.Double(0,0);
+		this.direction = "up";
 	}
+	
+	public List<Point2D> getTail() {
+		return tail;
+	}
+	public void setTail(List<Point2D> tail) {
+		this.tail = tail;
+	}
+	public Point2D getPosition() {
+		return position;
+	}
+	public void setPosition(Point2D position) {
+		this.position = position;
+	}
+
+
 	
 	public void start()
 	{
@@ -26,6 +44,8 @@ public class Player {
 	public void reset()
 	{
 		tail.clear();
+		position = new Point2D.Double(0,0);
+		direction = "up";
 	}
 	
 	public void addTail(Point2D position)
@@ -47,6 +67,14 @@ public class Player {
 
 	public void setTailColor(Color tailColor) {
 		this.tailColor = tailColor;
+	}
+
+	public String getCurrentDirection() {
+		return direction;
+	}
+
+	public void setCurrentDirection(String newDirection) {
+		direction = newDirection;
 	}
 	
 }

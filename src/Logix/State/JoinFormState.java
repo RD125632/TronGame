@@ -20,11 +20,13 @@ public class JoinFormState extends GameState{
 	private List<String> string;
 	private List<InputField> formList;
 	private int selectedIndex;
+	private boolean isPopUp;
 	
 	public JoinFormState(GamePanel p)
 	{
 		panel = p;
 		selectedIndex = 0;
+		isPopUp = false;
 		
 		string = new ArrayList<String>();
 		string.add("Join");
@@ -41,9 +43,8 @@ public class JoinFormState extends GameState{
 		}
 		
 		formList = new ArrayList<InputField>();
-		formList.add(new InputField("NAME"));
-		formList.add(new InputField("HOST ADRESS"));
-		formList.add(new InputField("PORT NUMBER"));
+		formList.add(new InputField("Player Name"));
+		formList.add(new InputField("Host Address"));
 	}
 
 	@Override
@@ -54,21 +55,42 @@ public class JoinFormState extends GameState{
 		
 		drawMenu(g2);
 		
-		drawForm(g2);
+		if(isPopUp)
+		{
+			drawForm(g2);
+		}
 	}
 	
+	
+	
+	public boolean isPopUp() {
+		return isPopUp;
+	}
+
+	public void setPopUp(boolean isPopUp) {
+		this.isPopUp = isPopUp;
+	}
+
 	private void drawForm(Graphics2D g2)
 	{
-		int yPlus = 300;
+		g2.setPaint(new Color(15,15,15));
+		g2.fillRect((panel.getParent().getWidth()/2) - 250, (panel.getParent().getHeight()/2) - 300 , 510, 350);
+		g2.setPaint(new Color(143, 213, 223));
+		g2.drawRect((panel.getParent().getWidth()/2) - 250, (panel.getParent().getHeight()/2) - 300 , 510, 350);
+	
+		g2.drawString("Connect Info", (panel.getParent().getWidth()/2) - 180, (panel.getParent().getHeight()/2) - 210);
+		
+		int yPlus = 220;
 		for(int i = 0; i <= formList.size() - 1; i++)
 		{
-			formList.get(i).setPosition((panel.getParent().getWidth()/2) - (300 / 2), (panel.getParent().getHeight()/2) - (yPlus -=75));
+			formList.get(i).setPosition((panel.getParent().getWidth()/2) - 150, (panel.getParent().getHeight()/2) - (yPlus -=75));
 			formList.get(i).draw(g2);
 		}
 	}
 	
 	private void drawMenu(Graphics2D g2)
 	{
+			
 		for(int i = 0; i <= string.size() - 1 ; i++)
 		{
 		

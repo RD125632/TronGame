@@ -25,8 +25,8 @@ public class StateHandler
 		gameStates.add(new MenuState(panel));
 		gameStates.add(new JoinFormState(panel));
 		gameStates.add(new HostFormState(panel));
-		gameStates.add(new SearchState(panel));
-		gameStates.add(new PlayState());
+		//gameStates.add(new SearchState(panel));
+		gameStates.add(new TronState(panel));
 	}
 	
 	public void select(int i)  { currentState = gameStates.get(i); }

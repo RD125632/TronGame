@@ -39,7 +39,7 @@ public class InputField {
         g2.drawRect(x, y, width, height);
 
         
-        g2.setFont(new Font("Arial", Font.ITALIC, 20));
+        g2.setFont(new Font("Arial", Font.ITALIC, 18));
         g2.drawString(text, x+8, y+(height - 10)); 
     }   
     

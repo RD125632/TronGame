@@ -9,6 +9,7 @@ import Logix.State.GameState;
 import Logix.State.HostFormState;
 import Logix.State.JoinFormState;
 import Logix.State.SearchState;
+import Logix.State.TronState;
 
 public class EventHandler {
 
@@ -51,6 +52,9 @@ public class EventHandler {
 			case 2:
 				menuL2(keyCode, e);
 			break;
+			case 3:;
+				menuL3(keyCode);
+				break;
 		}
 		
 	}
@@ -70,12 +74,14 @@ public class EventHandler {
 					JoinFormState tempState = (JoinFormState)state;
 					tempState.getForm().get(0).setSelected(true);
 					menuLevel = 1;
+					tempState.setPopUp(true);
 				}
 				else if(state instanceof HostFormState)
 				{
 					HostFormState tempState = (HostFormState)state;
 					tempState.getForm().get(0).setSelected(true);
 					menuLevel = 1;
+					tempState.setPopUp(true);
 				}
 				break;
 	        case KeyEvent.VK_UP:
@@ -99,11 +105,13 @@ public class EventHandler {
         					JoinFormState tempState = (JoinFormState)state;
         					tempState.getForm().get(0).setSelected(true);
         					menuLevel = 1;
+        					tempState.setPopUp(true);
         				break;
         			case "Host" :
-    					HostFormState tempState1 = (HostFormState)state;
-    					tempState1.getForm().get(0).setSelected(true);
-    					menuLevel = 1;
+    						HostFormState tempState1 = (HostFormState)state;
+    						tempState1.getForm().get(0).setSelected(true);
+    						menuLevel = 1;
+    						tempState1.setPopUp(true);
     					break;
         			case "Back" :
         				if(state instanceof HostFormState)
@@ -124,6 +132,33 @@ public class EventHandler {
 		}	
 	}
 	
+	public void menuL3(int keyCode)
+	{
+		TronState state = (TronState) statesHandler.getCurrentState();
+			
+		switch( keyCode ) 
+		{ 
+			case KeyEvent.VK_ESCAPE:
+				statesHandler.setIndex(0);
+				statesHandler.select(statesHandler.getIndex());
+				menuLevel = 0;
+				state.resetGame();
+				break;
+			case KeyEvent.VK_RIGHT:
+				state.setPlayerDirection("right");
+				break;
+	        case KeyEvent.VK_UP:
+	        	state.setPlayerDirection("up");
+	        	break;
+	        case KeyEvent.VK_DOWN:
+	        	state.setPlayerDirection("down");
+	        	break;
+	        case KeyEvent.VK_LEFT:
+	        	state.setPlayerDirection("left");
+	        	break;
+		}	
+	}
+	
 	public void menuL1(int keyCode, KeyEvent e)
 	{		
 		if(statesHandler.getCurrentState() instanceof JoinFormState || statesHandler.getCurrentState()instanceof HostFormState)
@@ -136,21 +171,23 @@ public class EventHandler {
 				{
 					statesHandler.setIndex(statesHandler.getIndex() + 2);
 					statesHandler.select(statesHandler.getIndex());
-					SearchState giveLast = (SearchState)statesHandler.getCurrentState();
-					giveLast.startSearch(menu);
-					menuLevel = 2;
-					
+					//SearchState giveLast = (SearchState)statesHandler.getCurrentState();
+					//giveLast.startSearch(menu);
+					menuLevel = 3;
+					//menu.setPopUp(false);
+					/*
 					for(int i = 0; i < menu.getForm().size(); i++)
 					{
 						if(menu.getForm().get(i).isSelected())
 						{
 							menu.getForm().get(i).setSelected(false);
 						}
-					}
+					}*/
 				}
 				else if(keyCode == KeyEvent.VK_LEFT || keyCode == KeyEvent.VK_ESCAPE)
 				{
 					menuLevel = 0;
+					menu.setPopUp(false);
 					for(int i = 0; i < menu.getForm().size(); i++)
 					{
 						if(menu.getForm().get(i).isSelected())
@@ -213,7 +250,7 @@ public class EventHandler {
 					statesHandler.next();
 					SearchState giveLast = (SearchState)statesHandler.getCurrentState();
 					giveLast.startSearch(menu);
-					
+					menu.setPopUp(false);
 					menuLevel = 2;
 					
 					for(int i = 0; i < menu.getForm().size(); i++)
@@ -227,6 +264,7 @@ public class EventHandler {
 				else if(keyCode == KeyEvent.VK_LEFT || keyCode == KeyEvent.VK_ESCAPE)
 				{
 					menuLevel = 0;
+					menu.setPopUp(true);
 					for(int i = 0; i < menu.getForm().size(); i++)
 					{
 						if(menu.getForm().get(i).isSelected())
@@ -256,7 +294,7 @@ public class EventHandler {
 						}
 					}
 				}
-				else if(keyCode == KeyEvent.VK_DOWN)
+				else if(keyCode == KeyEvent.VK_DOWN )
 				{
 					for(int i = 0; i < menu.getForm().size() - 1; i++)
 					{
@@ -281,7 +319,7 @@ public class EventHandler {
 		}
 	}
 		
-		public void menuL2(int keyCode, KeyEvent e)
+	public void menuL2(int keyCode, KeyEvent e)
 		{		
 			if(keyCode == KeyEvent.VK_ESCAPE)
 			{
@@ -302,5 +340,6 @@ public class EventHandler {
 			
 			
 		}
+	
 	
 }

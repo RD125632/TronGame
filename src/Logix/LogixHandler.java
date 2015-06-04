@@ -23,11 +23,6 @@ public class LogixHandler {
 		eventHandler = new EventHandler(statesHandler);
 	}
 
-	
-	
-	
-	
-	
 	public List<Player> getPlayers() {
 		return players;
 	}
