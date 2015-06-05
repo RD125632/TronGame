@@ -1,10 +1,14 @@
 package Logix.State;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.Stroke;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.List;
 
 import Logix.Objects.Player;
 import Visual.GamePanel;
@@ -14,23 +18,23 @@ public class TronState extends GameState{
 	private GamePanel panel;
 	private int selectedIndex;
 	
-	public Player player1, player2;
+	public List<Player> playerList;
 	
 	public TronState(GamePanel p)
 	{
 		panel = p;
 		selectedIndex = 0;
-
-		player1 = new Player("player1", Color.red);
-		player2 = new Player("player2", Color.GREEN);
+		playerList = new ArrayList<Player>();
+		playerList.add(new Player("player1", Color.red));
+		playerList.add(new Player("player2", Color.GREEN));
 	}
 
 	public Player getPlayer1() {
-		return player1;
+		return playerList.get(0);
 	}
 
 	public Player getPlayer2() {
-		return player2;
+		return playerList.get(1);
 	}
 
 	@Override
@@ -41,51 +45,44 @@ public class TronState extends GameState{
 		g2.setPaint(new Color(15,15,15));
 		g2.fillRect((panel.getParent().getWidth()/2) - 700, (panel.getParent().getHeight()/2) - 500 , 1400, 1000);
 		g2.setPaint(new Color(143, 213, 223));
+		
+		Stroke s = g2.getStroke();
+		g2.setStroke(new BasicStroke(5f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER));
 		g2.drawRect((panel.getParent().getWidth()/2) - 700, (panel.getParent().getHeight()/2) - 500 , 1400, 1000);
-	
+		g2.setStroke(s);
+		
 		AffineTransform tx = new AffineTransform();
 		tx.translate((panel.getParent().getWidth()/2), (panel.getParent().getHeight()/2));
 		
 		g2.setTransform(tx);
-		drawPlayer1(g2);
-		drawPlayer2(g2);
+		for(Player p : playerList)
+		{
+			drawPlayer(g2, p);
+		}
 	}
 
-	public void drawPlayer1(Graphics2D g2)
+	public void drawPlayer(Graphics2D g2, Player player)
 	{
 
-		g2.setPaint(player1.getTailColor());
-		g2.drawRect((int)player1.getPosition().getX(), (int)player1.getPosition().getY(), 8, 8);
+		g2.setPaint(player.getTailColor());
+		g2.fillRect((int)player.getPosition().getX(), (int)player.getPosition().getY(), 10, 10);
 
-		for(Point2D point : player1.getTail())
+		for(Point2D point : player.getTail())
 		{
 			g2.fillRect((int)point.getX() + 2, (int)point.getY() + 2, 6, 6);
 	
 		}
-	}
-	
-	public void drawPlayer2(Graphics2D g2)
-	{
-		g2.setPaint(player2.getTailColor());
-		g2.drawRect((int)player2.getPosition().getX(), (int)player2.getPosition().getY(), 8, 8);
-
-		for(Point2D point : player2.getTail())
-		{
-			g2.fillRect((int)point.getX() + 2, (int)point.getY() + 2, 6, 6);
-	
-		}
-		
 	}
 	
 	
 	public String getPlayerDirection(Player player)
 	{
-		return player1.getCurrentDirection();
+		return player.getCurrentDirection();
 	}
 	
 	public void setPlayerDirection(String newDirection)
 	{
-		player1.setCurrentDirection(newDirection);
+		playerList.get(0).setCurrentDirection(newDirection);
 	}
 	
 	public void selectBack()
@@ -99,47 +96,56 @@ public class TronState extends GameState{
 	@Override
 	public void update() 
 	{
-		playerUpdate(player1);
-		playerUpdate(player2);
+		playerUpdate(0);
+		playerUpdate(1);
 	}
 
-	public void playerUpdate(Player player)
+	public void playerUpdate(int index)
 	{
-		player.addTail(player.getPosition());
+		playerList.get(index).addTail(playerList.get(index).getPosition());
 		
-		switch(player.getCurrentDirection())
+		switch(playerList.get(index).getCurrentDirection())
 		{
 			case "right":
-				if(player.getPosition().getX() < 690)
+				if(playerList.get(index).getPosition().getX() < 690)
 				{
-					player.setPosition(new Point2D.Double(player.getPosition().getX() + 6, player.getPosition().getY()));
+					playerList.get(index).setPosition(new Point2D.Double(playerList.get(index).getPosition().getX() + 6, playerList.get(index).getPosition().getY()));
 				}
 			break;
 			case "up":
-				if(player.getPosition().getY() > -494)
+				if(playerList.get(index).getPosition().getY() > -494)
 				{
-					player.setPosition(new Point2D.Double(player.getPosition().getX(), player.getPosition().getY() - 6));
+					playerList.get(index).setPosition(new Point2D.Double(playerList.get(index).getPosition().getX(), playerList.get(index).getPosition().getY() - 6));
 				}
 			break;
 			case "left":
-				if(player.getPosition().getX() > -696)
+				if(playerList.get(index).getPosition().getX() > -696)
 				{
-					player.setPosition(new Point2D.Double(player.getPosition().getX() - 6, player.getPosition().getY()));	
+					playerList.get(index).setPosition(new Point2D.Double(playerList.get(index).getPosition().getX() - 6, playerList.get(index).getPosition().getY()));	
 				}
 			break;
 			case "down":
-				if(player.getPosition().getY() < 486)
+				if(playerList.get(index).getPosition().getY() < 486)
 				{
-					player.setPosition(new Point2D.Double(player.getPosition().getX(), player.getPosition().getY() + 6));
+					playerList.get(index).setPosition(new Point2D.Double(playerList.get(index).getPosition().getX(), playerList.get(index).getPosition().getY() + 6));
 				}
 			break;
 		}
+		
+		if(index == 0)
+		{
+			if(playerList.get(1).getTail().contains(playerList.get(index).getPosition()))
+			{
+				System.out.println("COLLISION");
+			}
+		}
+		
 	}
 	
 	public void resetGame()
 	{
-		player1.reset();
-		player2.reset();
+		playerList.get(0).reset();
+		playerList.get(1).reset();
 	}
 	
 	@Override
