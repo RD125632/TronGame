@@ -19,7 +19,7 @@ public class LogixThread extends Thread implements ActionListener {
    public LogixThread(LogixHandler controller)
    {
 	   thread = this;
-	   timer = new Timer(1000/30, this);
+	   timer = new Timer(1000/40, this);
 	   control = controller;
    }
    

@@ -25,6 +25,7 @@ public class StateHandler
 		gameStates.add(new MenuState(panel));
 		gameStates.add(new JoinFormState(panel));
 		gameStates.add(new HostFormState(panel));
+		gameStates.add(new LocalFormState(panel));
 		//gameStates.add(new SearchState(panel));
 		gameStates.add(new TronState(panel));
 	}

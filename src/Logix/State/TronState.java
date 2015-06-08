@@ -42,6 +42,7 @@ public class TronState extends GameState{
 	{
 		g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
 
+		
 		g2.setPaint(new Color(15,15,15));
 		g2.fillRect((panel.getParent().getWidth()/2) - 700, (panel.getParent().getHeight()/2) - 500 , 1400, 1000);
 		g2.setPaint(new Color(143, 213, 223));
@@ -80,9 +81,12 @@ public class TronState extends GameState{
 		return player.getCurrentDirection();
 	}
 	
-	public void setPlayerDirection(String newDirection)
+	public void setPlayerDirection(int playerID, String newDirection)
 	{
-		playerList.get(0).setCurrentDirection(newDirection);
+		if(newDirection != getPlayerDirection(playerList.get(playerID)))
+		{
+			playerList.get(playerID).setCurrentDirection(newDirection);
+		}
 	}
 	
 	public void selectBack()
@@ -111,6 +115,10 @@ public class TronState extends GameState{
 				{
 					playerList.get(index).setPosition(new Point2D.Double(playerList.get(index).getPosition().getX() + 6, playerList.get(index).getPosition().getY()));
 				}
+				else
+				{
+					System.out.println("BORDER");
+				}
 			break;
 			case "up":
 				if(playerList.get(index).getPosition().getY() > -494)
@@ -132,13 +140,14 @@ public class TronState extends GameState{
 			break;
 		}
 		
-		if(index == 0)
+		for(int i = 0; i < playerList.size(); i++)
 		{
-			if(playerList.get(1).getTail().contains(playerList.get(index).getPosition()))
+			if(playerList.get(i).getTail().contains(playerList.get(index).getPosition()))
 			{
 				System.out.println("COLLISION");
 			}
 		}
+		
 		
 	}
 	

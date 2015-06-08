@@ -8,6 +8,7 @@ import Logix.Objects.InputField;
 import Logix.State.GameState;
 import Logix.State.HostFormState;
 import Logix.State.JoinFormState;
+import Logix.State.LocalFormState;
 import Logix.State.SearchState;
 import Logix.State.TronState;
 
@@ -101,22 +102,37 @@ public class EventHandler {
          				statesHandler.setIndex(statesHandler.getIndex() + 2);
         				statesHandler.select(statesHandler.getIndex());
         				break;
+        			case "Local Game" :
+         				statesHandler.setIndex(statesHandler.getIndex() + 3);
+        				statesHandler.select(statesHandler.getIndex());
+        				break;
+        			case "Start" :
+        				LocalFormState localTemp = (LocalFormState)state;
+        				localTemp.getForm().get(0).setSelected(true);
+    					menuLevel = 1;
+    					localTemp.setPopUp(true);
+    					break;
         			case "Join" :
-        					JoinFormState tempState = (JoinFormState)state;
-        					tempState.getForm().get(0).setSelected(true);
+        					JoinFormState joinState = (JoinFormState)state;
+        					joinState.getForm().get(0).setSelected(true);
         					menuLevel = 1;
-        					tempState.setPopUp(true);
+        					joinState.setPopUp(true);
         				break;
         			case "Host" :
-    						HostFormState tempState1 = (HostFormState)state;
-    						tempState1.getForm().get(0).setSelected(true);
+    						HostFormState hostState = (HostFormState)state;
+    						hostState.getForm().get(0).setSelected(true);
     						menuLevel = 1;
-    						tempState1.setPopUp(true);
+    						hostState.setPopUp(true);
     					break;
         			case "Back" :
         				if(state instanceof HostFormState)
         				{
         					statesHandler.setIndex(statesHandler.getIndex() - 2);
+            				statesHandler.select(statesHandler.getIndex());
+        				}
+        				else if(state instanceof LocalFormState)
+        				{
+        					statesHandler.setIndex(statesHandler.getIndex() - 3);
             				statesHandler.select(statesHandler.getIndex());
         				}
         				else
@@ -145,16 +161,29 @@ public class EventHandler {
 				state.resetGame();
 				break;
 			case KeyEvent.VK_RIGHT:
-				state.setPlayerDirection("right");
+				state.setPlayerDirection(0,"right");
 				break;
 	        case KeyEvent.VK_UP:
-	        	state.setPlayerDirection("up");
+	        	state.setPlayerDirection(0,"up");
 	        	break;
 	        case KeyEvent.VK_DOWN:
-	        	state.setPlayerDirection("down");
+	        	state.setPlayerDirection(0,"down");
 	        	break;
 	        case KeyEvent.VK_LEFT:
-	        	state.setPlayerDirection("left");
+	        	state.setPlayerDirection(0,"left");
+	        	break;
+	        	/* ---- LOCAL MULTIPLAYER ----- */
+			case KeyEvent.VK_D:
+				state.setPlayerDirection(1,"right");
+				break;
+	        case KeyEvent.VK_W:
+	        	state.setPlayerDirection(1,"up");
+	        	break;
+	        case KeyEvent.VK_S:
+	        	state.setPlayerDirection(1,"down");
+	        	break;
+	        case KeyEvent.VK_A:
+	        	state.setPlayerDirection(1,"left");
 	        	break;
 		}	
 	}
