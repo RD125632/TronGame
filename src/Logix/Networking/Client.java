@@ -17,6 +17,7 @@ public class Client implements Runnable
 	public Client(String ip) 
 	{
 		serverIP = ip;
+		serverConnect();
 	}
 
 	public void serverConnect()

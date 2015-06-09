@@ -31,12 +31,12 @@ public class SearchState extends GameState {
 		if(state instanceof HostFormState)
 		{
 			setLastState(state);
-			new Server().run();
+			new Server();
 		}
 		else if(state instanceof JoinFormState)
 		{
 			setLastState(state);
-			new Client().run();			
+			new Client("localhost").run();			
 		}
 	}
 	
