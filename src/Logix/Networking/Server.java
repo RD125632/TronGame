@@ -1,39 +1,47 @@
 package Logix.Networking;
 
-import java.io.*;
-import java.net.*;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
 
-public class Server{
-	
-	private ServerSocket serverSocket;
-	private DataOutputStream toServer;
-	private DataInputStream fromServer;
-	private Client client;
+public class Server
+{	
+	private DataInputStream fromClient1;
+	private DataInputStream fromClient2;
+	private DataOutputStream toClient1;
+	private DataOutputStream toClient2;
 	
 	public Server() 
 	{
+		start();
 	}
 	
 	public void start()
 	{
-		Runnable serverTask = new Runnable() {
+		Runnable serverTask = new Runnable() 
+		{
             @Override
-            public void run() {
-                try {
-                	serverSocket = new ServerSocket(8000);
+            public void run() 
+            {
+                try 
+                {
+                	ServerSocket serverSocket = new ServerSocket(8000);
                     System.out.println("Waiting for clients to connect...");
-                    while (true) {
-                        client.setClientSocket(serverSocket.accept());
+                    while (true) 
+                    {
+                    	Socket client1 = serverSocket.accept();
+                    	Socket client2 = serverSocket.accept();
                     }
-                } catch (IOException e) {
+                } catch (IOException e) 
+                {
                     System.err.println("Unable to process client request");
                     e.printStackTrace();
                 }
             }
         };
-        
         Thread serverThread = new Thread(serverTask);
         serverThread.start();
 	}
-
 }
