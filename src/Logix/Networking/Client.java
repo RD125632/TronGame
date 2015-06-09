@@ -1,55 +1,35 @@
 package Logix.Networking;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+
 import java.io.IOException;
-import java.net.ServerSocket;
+import java.net.InetAddress;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
-public class Client {
+public class Client implements Runnable {
 
-	private Socket clientSocket;
-	// IO streams
-	private DataOutputStream toServer;
-	private DataInputStream fromServer;
-	private String serverIP;
-
-	public Client(String ip) 
+	
+	public Client()
 	{
-		serverIP = ip;
-	}
-
-	public void start()
-	{
-		 try {
-         	clientSocket = new Socket(serverIP, 8000);
-             System.out.println("Waiting for clients to connect...");
-         } catch (IOException e) {
-             System.err.println("Unable to process client request");
-             e.printStackTrace();
-         }
 		
-		Runnable clientTask = new Runnable() {
-            @Override
-            public void run() {
-            	 System.err.println("LOOP");
-            }
-        };
-        
-        Thread clientThread = new Thread(clientTask);
-        clientThread.start();
-	}
-	
-	public Socket getClientSocket() {
-		return clientSocket;
+	    
 	}
 
-	public void setClientSocket(Socket clientSocket) {
-		this.clientSocket = clientSocket;
-	}
+	@Override
+	public void run() {
+
+			try {
+		    	Socket client = new Socket(InetAddress.getLocalHost(),8000);
+		    	 System.out.println("CONNECTED");
+		    } catch (UnknownHostException e) {
+		        System.err.println("Host unknown. Cannot establish connection");
+		    } catch (IOException e) {
+		        System.err.println("Cannot establish connection. Server may not be up."+e.getMessage());
+		        e.printStackTrace();
+		    }
 	
 
-
-	  	
-	  	
+		
+	}
+	
 }

@@ -43,8 +43,10 @@ public class LocalFormState extends GameState{
 		}
 		
 		formList = new ArrayList<InputField>();
-		formList.add(new InputField("Player Name"));
-		formList.add(new InputField("Color"));
+		formList.add(new InputField("Player 1"));
+		formList.add(new InputField("Player 2"));
+		formList.add(new InputField("Color 1"));
+		formList.add(new InputField("Color 2"));
 	}
 
 	@Override
@@ -74,11 +76,11 @@ public class LocalFormState extends GameState{
 	private void drawForm(Graphics2D g2)
 	{
 		g2.setPaint(new Color(15,15,15));
-		g2.fillRect((panel.getParent().getWidth()/2) - 250, (panel.getParent().getHeight()/2) - 300 , 510, 350);
+		g2.fillRect((panel.getParent().getWidth()/2) - 250, (panel.getParent().getHeight()/2) - 300 , 510, 450);
 		g2.setPaint(new Color(143, 213, 223));
-		g2.drawRect((panel.getParent().getWidth()/2) - 250, (panel.getParent().getHeight()/2) - 300 , 510, 350);
+		g2.drawRect((panel.getParent().getWidth()/2) - 250, (panel.getParent().getHeight()/2) - 300 , 510, 450);
 	
-		g2.drawString("Connect Info", (panel.getParent().getWidth()/2) - 180, (panel.getParent().getHeight()/2) - 210);
+		g2.drawString("Players", (panel.getParent().getWidth()/2) - 115, (panel.getParent().getHeight()/2) - 210);
 		
 		int yPlus = 220;
 		for(int i = 0; i <= formList.size() - 1; i++)
