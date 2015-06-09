@@ -20,28 +20,20 @@ public class Server
 	
 	public void start()
 	{
-		Runnable serverTask = new Runnable() 
-		{
-            @Override
-            public void run() 
-            {
-                try 
-                {
-                	ServerSocket serverSocket = new ServerSocket(8000);
-                    System.out.println("Waiting for clients to connect...");
-                    while (true) 
-                    {
-                    	Socket client1 = serverSocket.accept();
-                    	Socket client2 = serverSocket.accept();
-                    }
-                } catch (IOException e) 
-                {
-                    System.err.println("Unable to process client request");
-                    e.printStackTrace();
-                }
-            }
-        };
-        Thread serverThread = new Thread(serverTask);
-        serverThread.start();
+	    try 
+	    {
+	    	ServerSocket serverSocket = new ServerSocket(8000);
+	        System.out.println("Waiting for clients to connect...");
+	        while (true) 
+	        {
+	        	Socket client1 = serverSocket.accept();
+	        	Socket client2 = serverSocket.accept();
+	        }
+	    } 
+	    catch (IOException e) 
+	    {
+	        System.err.println("Unable to process client request");
+	        e.printStackTrace();
+	    }
 	}
 }

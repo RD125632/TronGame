@@ -1,5 +1,6 @@
 package Logix;
 
+import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
@@ -67,23 +68,25 @@ public class EventHandler {
 		switch( keyCode ) 
 		{ 
 			case KeyEvent.VK_ESCAPE:
-				System.exit(0);
-				break;
-			case KeyEvent.VK_RIGHT:
-				if(state instanceof JoinFormState)
+				if(state instanceof HostFormState)
 				{
-					JoinFormState tempState = (JoinFormState)state;
-					tempState.getForm().get(0).setSelected(true);
-					menuLevel = 1;
-					tempState.setPopUp(true);
+					statesHandler.setIndex(statesHandler.getIndex() - 2);
+    				statesHandler.select(statesHandler.getIndex());
 				}
-				else if(state instanceof HostFormState)
+				else if(state instanceof LocalFormState)
 				{
-					HostFormState tempState = (HostFormState)state;
-					tempState.getForm().get(0).setSelected(true);
-					menuLevel = 1;
-					tempState.setPopUp(true);
+					statesHandler.setIndex(statesHandler.getIndex() - 3);
+    				statesHandler.select(statesHandler.getIndex());
 				}
+				else if(state instanceof JoinFormState)
+				{
+					statesHandler.back();
+				}
+				else
+				{
+					System.exit(0);
+				}
+				
 				break;
 	        case KeyEvent.VK_UP:
 	        	state.selectBack();	
@@ -107,11 +110,11 @@ public class EventHandler {
         				statesHandler.select(statesHandler.getIndex());
         				break;
         			case "Start" :
-        				LocalFormState localTemp = (LocalFormState)state;
-        				localTemp.getForm().get(0).setSelected(true);
-    					menuLevel = 1;
-    					localTemp.setPopUp(true);
-    					break;
+        					LocalFormState localTemp = (LocalFormState)state;
+        					localTemp.getForm().get(0).setSelected(true);
+        					menuLevel = 1;
+        					localTemp.setPopUp(true);
+    						break;
         			case "Join" :
         					JoinFormState joinState = (JoinFormState)state;
         					joinState.getForm().get(0).setSelected(true);
@@ -190,40 +193,26 @@ public class EventHandler {
 	
 	public void menuL1(int keyCode, KeyEvent e)
 	{		
-		if(statesHandler.getCurrentState() instanceof JoinFormState || statesHandler.getCurrentState()instanceof HostFormState)
+		if(statesHandler.getCurrentState() instanceof JoinFormState || statesHandler.getCurrentState()instanceof HostFormState || statesHandler.getCurrentState() instanceof LocalFormState)
 		{
-			
-			if(statesHandler.getCurrentState() instanceof JoinFormState)
+			if(statesHandler.getCurrentState() instanceof LocalFormState)
 			{
-				JoinFormState menu = (JoinFormState)statesHandler.getCurrentState();
+				LocalFormState menu = (LocalFormState)statesHandler.getCurrentState();
 				if(keyCode == KeyEvent.VK_ENTER)
 				{
-					statesHandler.setIndex(statesHandler.getIndex() + 2);
-					statesHandler.select(statesHandler.getIndex());
-					//SearchState giveLast = (SearchState)statesHandler.getCurrentState();
-					//giveLast.startSearch(menu);
+					statesHandler.next();
 					menuLevel = 3;
-					//menu.setPopUp(false);
-					/*
-					for(int i = 0; i < menu.getForm().size(); i++)
-					{
-						if(menu.getForm().get(i).isSelected())
-						{
-							menu.getForm().get(i).setSelected(false);
-						}
-					}*/
+					TronState ts = (TronState)statesHandler.getCurrentState();
+					ts.setPlayers(menu.getForm().get(0).getText(), menu.getForm().get(1).getText(), Color.red, Color.green);
 				}
-				else if(keyCode == KeyEvent.VK_LEFT || keyCode == KeyEvent.VK_ESCAPE)
+				
+				else if(keyCode == KeyEvent.VK_ESCAPE)
 				{
 					menuLevel = 0;
 					menu.setPopUp(false);
-					for(int i = 0; i < menu.getForm().size(); i++)
-					{
-						if(menu.getForm().get(i).isSelected())
-						{
-							menu.getForm().get(i).setSelected(false);
-						}
-					}
+					
+					newSelection(0,menu.getForm(),false);
+				
 				}
 				else if(keyCode == KeyEvent.VK_BACK_SPACE)
 				{
@@ -237,27 +226,57 @@ public class EventHandler {
 				}
 				else if(keyCode == KeyEvent.VK_UP)
 				{
-					for(int i = menu.getForm().size() - 1; i > 0; i--)
-					{
-						if(menu.getForm().get(i).isSelected() && i != 0)
-						{
-							menu.getForm().get(i-1).setSelected(true);
-							menu.getForm().get(i).setSelected(false);
-							return;
-						}
-					}
+					newSelection(0,menu.getForm(),true);
 				}
 				else if(keyCode == KeyEvent.VK_DOWN)
 				{
-					for(int i = 0; i < menu.getForm().size() - 1; i++)
+					newSelection(0,menu.getForm(),false);
+				}
+				else if(acceptedChars.contains(keyCode))
+				{
+					for(InputField item : menu.getForm())
 					{
-						if(menu.getForm().get(i).isSelected() && i != menu.getForm().size() - 1)
+						if(item.isSelected())
 						{
-							menu.getForm().get(i).setSelected(false);
-							menu.getForm().get(i+1).setSelected(true);
-							return;
+							item.updateText(e.getKeyChar());
 						}
 					}
+				}
+				
+			}
+			else
+			if(statesHandler.getCurrentState() instanceof JoinFormState)
+			{
+				JoinFormState menu = (JoinFormState)statesHandler.getCurrentState();
+				if(keyCode == KeyEvent.VK_ENTER)
+				{
+					statesHandler.setIndex(statesHandler.getIndex() + 3);
+					statesHandler.select(statesHandler.getIndex());
+					menuLevel = 2;
+				}
+				else if(keyCode == KeyEvent.VK_LEFT || keyCode == KeyEvent.VK_ESCAPE)
+				{
+					menuLevel = 0;
+					menu.setPopUp(false);
+					newSelection(0,menu.getForm(),false);
+				}
+				else if(keyCode == KeyEvent.VK_BACK_SPACE)
+				{
+					for(InputField item : menu.getForm())
+					{
+						if(item.isSelected())
+						{
+							item.backspace();
+						}
+					}
+				}
+				else if(keyCode == KeyEvent.VK_UP)
+				{
+					newSelection(0,menu.getForm(),true);
+				}
+				else if(keyCode == KeyEvent.VK_DOWN)
+				{
+					newSelection(0,menu.getForm(),false);
 				}
 				else if(acceptedChars.contains(keyCode))
 				{
@@ -276,7 +295,9 @@ public class EventHandler {
 				HostFormState menu = (HostFormState)statesHandler.getCurrentState();
 				if(keyCode == KeyEvent.VK_ENTER)
 				{
-					statesHandler.next();
+					statesHandler.setIndex(statesHandler.getIndex() + 2);
+					statesHandler.select(statesHandler.getIndex());
+					
 					SearchState giveLast = (SearchState)statesHandler.getCurrentState();
 					giveLast.startSearch(menu);
 					menu.setPopUp(false);
@@ -314,25 +335,11 @@ public class EventHandler {
 				}
 				else if(keyCode == KeyEvent.VK_UP)
 				{
-					for(int i = 0; i < menu.getForm().size() - 1; i++)
-					{
-						if(menu.getForm().get(i).isSelected() && i != 0)
-						{
-							menu.getForm().get(i).setSelected(false);
-							menu.getForm().get(i-1).setSelected(true);
-						}
-					}
+					newSelection(0,menu.getForm(),true);
 				}
 				else if(keyCode == KeyEvent.VK_DOWN )
 				{
-					for(int i = 0; i < menu.getForm().size() - 1; i++)
-					{
-						if(menu.getForm().get(i).isSelected() && i != menu.getForm().size() - 1)
-						{
-							menu.getForm().get(i).setSelected(false);
-							menu.getForm().get(i+1).setSelected(true);
-						}
-					}
+					newSelection(0,menu.getForm(),false);
 				}
 				else if(acceptedChars.contains(keyCode))
 				{
@@ -369,6 +376,53 @@ public class EventHandler {
 			
 			
 		}
+	
+	private void newSelection(int i, List<InputField> menu, boolean isUP)
+	{
+		
+			if(isUP)
+			{
+				if(menu.get(i).isSelected())
+				{
+					if(i > 0)
+					{
+						menu.get(i).setSelected(false);
+						menu.get(i-1).setSelected(true);
+						return;
+					}
+					else
+					{
+						return;
+					}
+				}	
+				else
+				{
+					i++;
+					newSelection(i,menu,isUP);
+				}
+			}
+			else
+			{
+				if(i < menu.size()-1)
+				{	
+					if(menu.get(i).isSelected())
+					{
+						menu.get(i).setSelected(false);
+						menu.get(i+1).setSelected(true);
+						return;
+					}
+					else
+					{
+						i++;
+						newSelection(i,menu,isUP);
+					}
+				}
+				else
+				{
+					return;
+				}
+			}
+	}
 	
 	
 }

@@ -3,8 +3,8 @@ package Logix.Networking;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
 public class Client implements Runnable
 {
@@ -31,11 +31,15 @@ public class Client implements Runnable
              
              // Thread thread = new Thread(this); theard.start();
          } 
+		 catch (UnknownHostException e) 
+		 {
+			 System.err.println("Host unknown. Cannot establish connection");
+		 } 
 		 catch (IOException e) 
 		 {
-             System.err.println("Unable to process client request");
-             e.printStackTrace();
-         }
+			 System.err.println("Cannot establish connection. Server may not be up."+e.getMessage());
+			 e.printStackTrace();
+		 }
 	}
 
 	@Override

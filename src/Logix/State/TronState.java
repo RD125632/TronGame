@@ -157,6 +157,12 @@ public class TronState extends GameState{
 		playerList.get(1).reset();
 	}
 	
+	public void setPlayers(String p1, String p2, Color c1, Color c2)
+	{
+		playerList.add(new Player(p1, c1));
+		playerList.add(new Player(p2, c2));
+	}
+	
 	@Override
 	public void init() {
 		// TODO Auto-generated method stub
