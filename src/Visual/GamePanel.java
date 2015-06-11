@@ -1,5 +1,7 @@
 package Visual;
 
+import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
@@ -21,24 +23,33 @@ public class GamePanel extends JPanel implements KeyListener {
 	private static final long serialVersionUID = 1L;
 	private LogixHandler control;
 	private BufferedImage image;
+	private Font menuFont;
 	
 	public GamePanel()
 	{
 		super();
 
-
-		control = new LogixHandler(this);
-		startThreads();
-		
 		try {
 			image = ImageIO.read(new File(System.getProperty("user.dir") + "/Resource/Image/bg.jpeg"));
-		} catch (IOException e) {
+			String path = System.getProperty("user.dir") + "/Resource/JKAbode-Demo.ttf";
+			menuFont = Font.createFont(Font.TRUETYPE_FONT, new File(path));
+		}
+		catch (FontFormatException | IOException e) 
+		{
 			e.printStackTrace();
 		}
+		
+		control = new LogixHandler(this);
+		startThreads();
 		
 		addKeyListener(this);
 		setFocusable(true);
 		requestFocusInWindow();
+	}
+	
+	public Font getMenuFont()
+	{
+		return menuFont;
 	}
 	
 	private void startThreads()

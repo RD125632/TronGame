@@ -2,11 +2,8 @@ package Logix.State;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.FontFormatException;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,16 +28,8 @@ public class LocalFormState extends GameState{
 		string = new ArrayList<String>();
 		string.add("Start");
 		string.add("Back");
-		
-		try 
-		{
-			String path = System.getProperty("user.dir") + "/Resource/JKAbode-Demo.ttf";
-			menuFont = Font.createFont(Font.TRUETYPE_FONT, new File(path));
-		} 
-		catch (FontFormatException | IOException e) 
-		{
-			e.printStackTrace();
-		}
+
+		menuFont = panel.getMenuFont();
 		
 		formList = new ArrayList<InputField>();
 		formList.add(new InputField("Player 1"));

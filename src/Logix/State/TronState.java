@@ -2,6 +2,8 @@ package Logix.State;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.Stroke;
@@ -10,28 +12,28 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
-import Logix.StateHandler;
 import Logix.Objects.Player;
 import Visual.GamePanel;
 
 public class TronState extends GameState{
 	
 	private GamePanel panel;
+	private Font menuFont;
 	private int selectedIndex;
-	private StateHandler stateHandler;
+	private Player winner;
 	private boolean isFinished;
-	
-	public List<Player> playerList;
-	
-	public TronState(GamePanel p, StateHandler statehandler)
+	private List<Player> playerList;	
+	public TronState(GamePanel p)
 	{
-		stateHandler = statehandler;
 		panel = p;
 		selectedIndex = 0;
 		playerList = new ArrayList<Player>();
 		isFinished = false;
+		menuFont = panel.getMenuFont();
 	}
 
+
+	
 	public Player getPlayer1() {
 		return playerList.get(0);
 	}
@@ -44,11 +46,19 @@ public class TronState extends GameState{
 	public void draw(Graphics2D g2) 
 	{
 		g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
-
+		g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+		
+		g2.setFont(new Font("Arial", Font.ITALIC, 40));
+		g2.setPaint(playerList.get(0).getTailColor());
+		g2.drawString(playerList.get(0).getName(), 50, 100);
+		
+		g2.setPaint(playerList.get(1).getTailColor());
+		g2.drawString(playerList.get(1).getName(), 50, 200);
 		
 		g2.setPaint(new Color(15,15,15));
 		g2.fillRect((panel.getParent().getWidth()/2) - 700, (panel.getParent().getHeight()/2) - 500 , 1400, 1000);
 		g2.setPaint(new Color(143, 213, 223));
+		
 		
 		Stroke s = g2.getStroke();
 		g2.setStroke(new BasicStroke(5f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER));
@@ -79,6 +89,7 @@ public class TronState extends GameState{
 		g2.setPaint(player.getTailColor());
 		g2.fillRect((int)player.getPosition().getX(), (int)player.getPosition().getY(), 10, 10);
 
+		
 		for(Point2D point : player.getTail())
 		{
 			g2.fillRect((int)point.getX() + 2, (int)point.getY() + 2, 6, 6);
@@ -88,8 +99,24 @@ public class TronState extends GameState{
 	
 	public void drawFinished(Graphics2D g2)
 	{
+		Font temp = g2.getFont();
+		FontMetrics met;
+		
+		g2.setFont(menuFont.deriveFont(150f));
+		met = g2.getFontMetrics();
+		g2.setPaint(new Color(143, 213, 223));
+		g2.drawString("Winner", -(met.stringWidth("Winner")/2), -300);
+		
+		g2.setFont(temp);
+		met = g2.getFontMetrics();
+		g2.setPaint(winner.getTailColor());
+		g2.drawString(winner.getName(), -(met.stringWidth(winner.getName())/2), 0);
+			
+		g2.setFont(temp.deriveFont(22f));
+		met = g2.getFontMetrics();
 		g2.setPaint(Color.white);
-		g2.drawString("TEST", 100, 100);
+		String retryString = "Press Space to Retry";
+		g2.drawString(retryString, -(met.stringWidth(retryString)/2), 200);
 	}
 	
 	
@@ -122,6 +149,10 @@ public class TronState extends GameState{
 			playerUpdate(0);
 			playerUpdate(1);
 		}
+		else
+		{
+	
+		}
 	}
 
 	public void playerUpdate(int index)
@@ -134,10 +165,6 @@ public class TronState extends GameState{
 				if(playerList.get(index).getPosition().getX() < 690)
 				{
 					playerList.get(index).setPosition(new Point2D.Double(playerList.get(index).getPosition().getX() + 6, playerList.get(index).getPosition().getY()));
-				}
-				else
-				{
-					System.out.println("BORDER");
 				}
 			break;
 			case "up":
@@ -165,21 +192,31 @@ public class TronState extends GameState{
 			if(playerList.get(i).getTail().contains(playerList.get(index).getPosition()))
 			{
 				isFinished(true);
+				if(index == 1)
+				{
+					winner = playerList.get(0);
+				}
+				else
+				{
+					winner = playerList.get(1);
+				}
+				
 			}
 		}
 		
 		
 	}
 	
-	public void isFinished(boolean winner)
+	public void isFinished(boolean gameFinished)
 	{
-		isFinished = winner;
+		isFinished = gameFinished;
 	}
 	
 	public void resetGame()
 	{
 		playerList.get(0).reset();
 		playerList.get(1).reset();
+		isFinished = false;
 	}
 	
 	public void setPlayers(String p1, String p2)

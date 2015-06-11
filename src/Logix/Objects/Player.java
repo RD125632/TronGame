@@ -10,27 +10,26 @@ public class Player {
 	private String name, direction;
 	private Color tailColor;
 	private List<Point2D> tail;
-	private Point2D position; 
+	private Point2D position;
+	private int id;
 	
 	public Player(String name, Color color, int playerNumber)
 	{
 		this.setName(name);
 		this.setTailColor(color);
 		this.tail = new ArrayList<Point2D>();
+		this.id = playerNumber;
 		
-		if(playerNumber == 1)
+		if(id == 1)
 		{
 			this.position = new Point2D.Double(-100,-100);
 			this.direction = "up";
 		}
-		else if(playerNumber == 2)
+		else if(id == 2)
 		{
 			this.position = new Point2D.Double(100,100);
 			this.direction = "down";
-		}
-		
-		
-		
+		}	
 	}
 	
 	public List<Point2D> getTail() {
@@ -56,8 +55,17 @@ public class Player {
 	public void reset()
 	{
 		tail.clear();
-		position = new Point2D.Double(0,0);
-		direction = "up";
+		
+		if(id == 1)
+		{
+			this.position = new Point2D.Double(-100,-100);
+			this.direction = "up";
+		}
+		else if(id == 2)
+		{
+			this.position = new Point2D.Double(100,100);
+			this.direction = "down";
+		}
 	}
 	
 	public void addTail(Point2D position)

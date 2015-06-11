@@ -1,6 +1,5 @@
 package Logix;
 
-import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
@@ -187,6 +186,9 @@ public class EventHandler {
 	        	break;
 	        case KeyEvent.VK_A:
 	        	state.setPlayerDirection(1,"left");
+	        	break;
+	        case KeyEvent.VK_SPACE:
+	        	state.resetGame();
 	        	break;
 		}	
 	}

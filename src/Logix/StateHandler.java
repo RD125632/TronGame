@@ -27,7 +27,7 @@ public class StateHandler
 		gameStates.add(new HostFormState(panel));
 		gameStates.add(new LocalFormState(panel));
 		gameStates.add(new SearchState(panel));
-		gameStates.add(new TronState(panel, this));
+		gameStates.add(new TronState(panel));
 	}
 	
 	public void select(int i)  { currentState = gameStates.get(i); }

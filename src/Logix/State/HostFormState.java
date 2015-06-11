@@ -3,11 +3,8 @@ package Logix.State;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.FontFormatException;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.io.File;
-import java.io.IOException;
 import java.net.Inet4Address;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -34,15 +31,7 @@ public class HostFormState extends GameState{
 		string.add("Host");
 		string.add("Back");
 		
-		try 
-		{
-			String path = System.getProperty("user.dir") + "/Resource/JKAbode-Demo.ttf";
-			menuFont = Font.createFont(Font.TRUETYPE_FONT, new File(path));
-		} 
-		catch (FontFormatException | IOException e) 
-		{
-			e.printStackTrace();
-		}		
+		menuFont = panel.getMenuFont();
 		
 		formList = new ArrayList<InputField>();
 		formList.add(new InputField("Player Name"));
