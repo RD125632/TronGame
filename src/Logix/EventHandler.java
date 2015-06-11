@@ -200,10 +200,11 @@ public class EventHandler {
 				LocalFormState menu = (LocalFormState)statesHandler.getCurrentState();
 				if(keyCode == KeyEvent.VK_ENTER)
 				{
-					statesHandler.next();
+					statesHandler.setIndex(statesHandler.getIndex() + 2);
+					statesHandler.select(statesHandler.getIndex());
 					menuLevel = 3;
 					TronState ts = (TronState)statesHandler.getCurrentState();
-					ts.setPlayers(menu.getForm().get(0).getText(), menu.getForm().get(1).getText(), Color.red, Color.green);
+					ts.setPlayers(menu.getForm().get(0).getText(), menu.getForm().get(1).getText());
 				}
 				
 				else if(keyCode == KeyEvent.VK_ESCAPE)

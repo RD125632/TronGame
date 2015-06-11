@@ -10,6 +10,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
+import Logix.StateHandler;
 import Logix.Objects.Player;
 import Visual.GamePanel;
 
@@ -17,16 +18,18 @@ public class TronState extends GameState{
 	
 	private GamePanel panel;
 	private int selectedIndex;
+	private StateHandler stateHandler;
+	private boolean isFinished;
 	
 	public List<Player> playerList;
 	
-	public TronState(GamePanel p)
+	public TronState(GamePanel p, StateHandler statehandler)
 	{
+		stateHandler = statehandler;
 		panel = p;
 		selectedIndex = 0;
 		playerList = new ArrayList<Player>();
-		playerList.add(new Player("player1", Color.red));
-		playerList.add(new Player("player2", Color.GREEN));
+		isFinished = false;
 	}
 
 	public Player getPlayer1() {
@@ -56,9 +59,17 @@ public class TronState extends GameState{
 		tx.translate((panel.getParent().getWidth()/2), (panel.getParent().getHeight()/2));
 		
 		g2.setTransform(tx);
-		for(Player p : playerList)
+		
+		if(isFinished)
 		{
-			drawPlayer(g2, p);
+			drawFinished(g2);
+		}
+		else
+		{
+			for(Player p : playerList)
+			{
+				drawPlayer(g2, p);
+			}
 		}
 	}
 
@@ -73,6 +84,12 @@ public class TronState extends GameState{
 			g2.fillRect((int)point.getX() + 2, (int)point.getY() + 2, 6, 6);
 	
 		}
+	}
+	
+	public void drawFinished(Graphics2D g2)
+	{
+		g2.setPaint(Color.white);
+		g2.drawString("TEST", 100, 100);
 	}
 	
 	
@@ -100,8 +117,11 @@ public class TronState extends GameState{
 	@Override
 	public void update() 
 	{
-		playerUpdate(0);
-		playerUpdate(1);
+		if(!isFinished)
+		{
+			playerUpdate(0);
+			playerUpdate(1);
+		}
 	}
 
 	public void playerUpdate(int index)
@@ -144,11 +164,16 @@ public class TronState extends GameState{
 		{
 			if(playerList.get(i).getTail().contains(playerList.get(index).getPosition()))
 			{
-				System.out.println("COLLISION");
+				isFinished(true);
 			}
 		}
 		
 		
+	}
+	
+	public void isFinished(boolean winner)
+	{
+		isFinished = winner;
 	}
 	
 	public void resetGame()
@@ -157,10 +182,10 @@ public class TronState extends GameState{
 		playerList.get(1).reset();
 	}
 	
-	public void setPlayers(String p1, String p2, Color c1, Color c2)
+	public void setPlayers(String p1, String p2)
 	{
-		playerList.add(new Player(p1, c1));
-		playerList.add(new Player(p2, c2));
+		playerList.add(new Player(p1, Color.red,  1));
+		playerList.add(new Player(p2, Color.green, 2));
 	}
 	
 	@Override
