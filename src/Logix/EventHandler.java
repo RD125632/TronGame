@@ -255,6 +255,11 @@ public class EventHandler {
 				{
 					statesHandler.setIndex(statesHandler.getIndex() + 3);
 					statesHandler.select(statesHandler.getIndex());
+					
+					SearchState giveLast = (SearchState)statesHandler.getCurrentState();
+					giveLast.startSearch(menu);
+					menu.setPopUp(false);
+					
 					menuLevel = 2;
 				}
 				else if(keyCode == KeyEvent.VK_LEFT || keyCode == KeyEvent.VK_ESCAPE)

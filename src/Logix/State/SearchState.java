@@ -9,8 +9,8 @@ import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 
-import Logix.Networking.Client;
-import Logix.Networking.Server;
+import Logix.Networking.ClientController;
+import Logix.Networking.ServerController;
 import Visual.GamePanel;
 
 public class SearchState extends GameState {
@@ -31,13 +31,15 @@ public class SearchState extends GameState {
 		if(state instanceof HostFormState)
 		{
 			setLastState(state);
-			new Server();
+			ServerController s = new ServerController();
 		}
 		else if(state instanceof JoinFormState)
 		{
 			setLastState(state);
-			new Client("localhost").run();			
+			new ClientController();			
 		}
+		
+		
 	}
 	
 	@Override
