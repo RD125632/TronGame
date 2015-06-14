@@ -365,9 +365,11 @@ public class EventHandler {
 		
 	public void menuL2(int keyCode, KeyEvent e)
 		{		
+			SearchState state =(SearchState)statesHandler.getCurrentState();
+			
 			if(keyCode == KeyEvent.VK_ESCAPE)
 			{
-				SearchState state =(SearchState)statesHandler.getCurrentState();
+				
 				
 				if(state.getLastState() instanceof HostFormState)
 				{
@@ -379,6 +381,15 @@ public class EventHandler {
 					menuLevel = 0;
 					statesHandler.setIndex(statesHandler.getIndex() - 2);
 					statesHandler.select(statesHandler.getIndex());
+				}
+			}
+			else if(keyCode == KeyEvent.VK_ENTER)
+			{
+				if(state.isConnected() == true)
+				{					
+					statesHandler.next();
+					TronState tron = (TronState)statesHandler.getCurrentState();
+					tron.setPlayers(state.getDataStream().getPlayers());
 				}
 			}
 			

@@ -1,14 +1,18 @@
 package Logix.State;
 
+import java.awt.AWTException;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.Robot;
 import java.awt.Shape;
+import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 
+import Logix.DataStreamHandler;
 import Logix.Networking.ClientController;
 import Logix.Networking.ServerController;
 import Visual.GamePanel;
@@ -20,23 +24,34 @@ public class SearchState extends GameState {
 	private int rotateCount = 0;
 	private int outRadius = 50;
 	private int inRadius = 10;
+	private DataStreamHandler dataStream;
+	private boolean isConnected;
+	
 	
 	public SearchState(GamePanel p)
 	{
 		panel = p;
 	}
-
+ 
+	public DataStreamHandler getDataStream()
+	{
+		return dataStream;
+	}
+	
 	public void startSearch(GameState state)
 	{
 		if(state instanceof HostFormState)
 		{
 			setLastState(state);
 			ServerController s = new ServerController();
+			dataStream = s.getDataSteam();
+			
 		}
 		else if(state instanceof JoinFormState)
 		{
 			setLastState(state);
-			new ClientController();			
+			ClientController c = new ClientController();	
+			dataStream = c.getDataSteam();
 		}
 		
 		
@@ -94,11 +109,34 @@ public class SearchState extends GameState {
 	}
 	
 	@Override
-	public void update() {
-		// TODO Auto-generated method stub
+	public void update() 
+	{
+		
+		if(dataStream != null)
+		{
+			Robot r;
+			
+			try 
+			{
+				r = new Robot();
+				r.keyPress(KeyEvent.VK_ENTER);
+			} catch (AWTException e) {
+				e.printStackTrace();
+			}	
+			
+			if(dataStream.getStatus() == "Initialized" || dataStream.getStatus() == "WORKING")
+			{
+					isConnected = true;
+			}
+		}
 		
 	}
 
+	public boolean isConnected()
+	{
+		return isConnected;
+	}
+	
 	@Override
 	public void init() {
 		// TODO Auto-generated method stub

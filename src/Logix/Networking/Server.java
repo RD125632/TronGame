@@ -15,8 +15,9 @@ public class Server implements Runnable{
 	
 	public Server(ServerController serverController) {
 		this.serverController = serverController;
+		this.serverController.setDataSteam(dataStreamHandler);
 	}
-
+	
 	public void run()
 	{
 		try {

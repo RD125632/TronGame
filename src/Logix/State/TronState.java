@@ -19,28 +19,17 @@ public class TronState extends GameState{
 	
 	private GamePanel panel;
 	private Font menuFont;
-	private int selectedIndex;
+	private List<Player> playerList;
 	private Player winner;
-	private boolean isFinished;
-	private List<Player> playerList;	
+	private boolean isFinished;	
+	
 	public TronState(GamePanel p)
 	{
 		panel = p;
-		selectedIndex = 0;
-		playerList = new ArrayList<Player>();
 		isFinished = false;
 		menuFont = panel.getMenuFont();
 	}
 
-
-	
-	public Player getPlayer1() {
-		return playerList.get(0);
-	}
-
-	public Player getPlayer2() {
-		return playerList.get(1);
-	}
 
 	@Override
 	public void draw(Graphics2D g2) 
@@ -132,15 +121,7 @@ public class TronState extends GameState{
 			playerList.get(playerID).setCurrentDirection(newDirection);
 		}
 	}
-	
-	public void selectBack()
-	{
-		if(selectedIndex != 0)
-		{
-			selectedIndex--;
-		}
-	}
-	
+		
 	@Override
 	public void update() 
 	{
@@ -221,9 +202,16 @@ public class TronState extends GameState{
 	
 	public void setPlayers(String p1, String p2)
 	{
+		playerList = new ArrayList<Player>();
 		playerList.add(new Player(p1, Color.red,  1));
 		playerList.add(new Player(p2, Color.green, 2));
 	}
+	
+	public void setPlayers(List<Player> players)
+	{
+		playerList = players;
+	}
+	
 	
 	@Override
 	public void init() {
@@ -239,6 +227,13 @@ public class TronState extends GameState{
 
 	@Override
 	public void selectNext() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void selectBack() {
 		// TODO Auto-generated method stub
 		
 	}

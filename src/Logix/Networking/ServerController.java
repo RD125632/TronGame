@@ -4,12 +4,14 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
+import Logix.DataStreamHandler;
 import Logix.Objects.Player;
 
 public class ServerController {
 	
 	private Thread server;
 	private List<Player> players;
+	private DataStreamHandler dataStream;
 
 	public ServerController()
 	{
@@ -18,6 +20,15 @@ public class ServerController {
 		server.start();
 	}
 	
+	public void setDataSteam(DataStreamHandler data)
+	{
+		dataStream = data;
+	}
+	
+	public DataStreamHandler getDataSteam()
+	{
+		return dataStream;
+	}
 	
 	public List<Player> getPlayers()
 	{

@@ -32,12 +32,18 @@ public class Player {
 		}	
 	}
 	
+	public int getID()
+	{
+		return id;
+	}
+	
 	public List<Point2D> getTail() {
 		return tail;
 	}
 	public void setTail(List<Point2D> tail) {
 		this.tail = tail;
 	}
+	
 	public Point2D getPosition() {
 		return position;
 	}

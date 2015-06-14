@@ -1,7 +1,5 @@
 package Logix.Networking;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -13,8 +11,6 @@ public class Client implements Runnable{
 
 	private Socket socket;
 	private ClientController clientController;
-	private DataInputStream in;
-	private DataOutputStream out;
 	private DataStreamHandler dataStreamHandler;
 	
 	public Client(ClientController clientController)
@@ -24,6 +20,7 @@ public class Client implements Runnable{
 		dataStreamHandler.setStatus("Initialized");
 		System.out.println("The client status is: " + dataStreamHandler.getStatus());
 		
+		this.clientController.setDataSteam(dataStreamHandler);
 	}
 
 	@Override
@@ -40,16 +37,14 @@ public class Client implements Runnable{
 		
 		
 		try 
-		{
-			this.out = new DataOutputStream(socket.getOutputStream());
-			this.in = new DataInputStream(socket.getInputStream());
-			
+		{			
 			while(true)
 			{
 				ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
 				ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
 				
 				oos.writeObject(dataStreamHandler);
+				
 				dataStreamHandler = (DataStreamHandler) ois.readObject();
 				
 				System.out.println("The client status is: " + dataStreamHandler.getStatus());

@@ -3,11 +3,14 @@ package Logix.Networking;
 
 import java.net.InetAddress;
 
+import Logix.DataStreamHandler;
+
 public class ClientController {
 	
 	private Thread client;
 	private boolean connected = false;
 	private InetAddress Inetadres = null;
+	private DataStreamHandler dataStream;
 	
 	public ClientController()
 	{
@@ -32,5 +35,16 @@ public class ClientController {
 	public void setInetadres(InetAddress inetAddress) {
 		Inetadres = inetAddress;
 	}
+	
+	public void setDataSteam(DataStreamHandler data)
+	{
+		dataStream = data;
+	}
+	
+	public DataStreamHandler getDataSteam()
+	{
+		return dataStream;
+	}
+	
 
 }
