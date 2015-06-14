@@ -203,18 +203,7 @@ public class TronState extends GameState{
 		dataStream.getPlayers().get(1).reset();
 		isFinished = false;
 	}
-	
-	public void setPlayers(String p1, String p2)
-	{
-		dataStream.getPlayers().get(0).setName(p1);
-		dataStream.getPlayers().get(1).setName(p2);
-	}
-	
-	public void setPlayers(String p, int id)
-	{
-		dataStream.getPlayers().get(id).setName(p);
-	}	
-	
+		
 	@Override
 	public void init() {
 		
