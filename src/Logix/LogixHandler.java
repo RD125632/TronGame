@@ -14,13 +14,15 @@ public class LogixHandler {
 	
 	private StateHandler statesHandler;
 	private EventHandler eventHandler;
+	private DataStreamHandler dataStreamHandler;
 	
 	public LogixHandler(GamePanel f)
 	{
+		dataStreamHandler = new DataStreamHandler();
 		panel = f;
 		setPlayers(new ArrayList<Player>());
-		statesHandler = new StateHandler(panel);
-		eventHandler = new EventHandler(statesHandler);
+		statesHandler = new StateHandler(panel, dataStreamHandler);
+		eventHandler = new EventHandler(statesHandler, dataStreamHandler);
 	}
 
 	public List<Player> getPlayers() {

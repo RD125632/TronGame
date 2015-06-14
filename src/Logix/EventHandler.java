@@ -17,10 +17,11 @@ public class EventHandler {
 	private StateHandler statesHandler;
 	private int menuLevel;
 	private List<Integer> acceptedChars;
-	private DataStreamHandler dataStream;
+	private DataStreamHandler dataStreamHandler;
 	
-	public EventHandler(StateHandler states)
+	public EventHandler(StateHandler states, DataStreamHandler dataStreamHandler)
 	{
+		this.dataStreamHandler = dataStreamHandler;
 		statesHandler = states;
 		menuLevel = 0;
 		acceptedChars = new ArrayList<Integer>();
@@ -179,13 +180,11 @@ public class EventHandler {
 				{
 					statesHandler.setCurrentState("tronState");
 					menuLevel = 3;
-					
-					dataStream = new DataStreamHandler();					
-					dataStream.getPlayers().get(0).setName(menu.getForm().get(0).getText());
-					dataStream.getPlayers().get(1).setName(menu.getForm().get(1).getText());
+									
+					dataStreamHandler.getPlayers().get(0).setName(menu.getForm().get(0).getText());
+					dataStreamHandler.getPlayers().get(1).setName(menu.getForm().get(1).getText());
 					
 					TronState tron = (TronState)statesHandler.getState("tronState");
-					tron.setDataStream(dataStream);
 				}
 				
 				else if(keyCode == KeyEvent.VK_ESCAPE)
@@ -239,11 +238,11 @@ public class EventHandler {
 					giveLast.startSearch(menu);
 					menu.setPopUp(false);
 
-					dataStream = giveLast.getDataStream();
+					dataStreamHandler = giveLast.getDataStream();
 					menuLevel = 2;
 					
 				
-					dataStream.getPlayers().get(1).setName(menu.getForm().get(0).getText());
+					dataStreamHandler.getPlayers().get(1).setName(menu.getForm().get(0).getText());
 					
 				}
 				else if(keyCode == KeyEvent.VK_LEFT || keyCode == KeyEvent.VK_ESCAPE)
@@ -292,10 +291,10 @@ public class EventHandler {
 					SearchState giveLast = (SearchState)statesHandler.getCurrentState();
 					giveLast.startSearch(menu);
 					menu.setPopUp(false);
-					dataStream = giveLast.getDataStream();
+					dataStreamHandler = giveLast.getDataStream();
 					menuLevel = 2;
 										
-					dataStream.getPlayers().get(0).setName(menu.getForm().get(0).getText());
+					dataStreamHandler.getPlayers().get(0).setName(menu.getForm().get(0).getText());
 					
 					for(int i = 0; i < menu.getForm().size(); i++)
 					{
@@ -363,7 +362,6 @@ public class EventHandler {
 				{					
 					statesHandler.setCurrentState("tronState");
 					TronState tron = (TronState) statesHandler.getState("tronState");
-					tron.setDataStream(dataStream);
 				}
 			}
 		}

@@ -20,10 +20,11 @@ public class TronState extends GameState{
 	private Font menuFont;
 	private Player winner;
 	private boolean isFinished;	
-	private DataStreamHandler dataStream;
+	private DataStreamHandler dataStreamHandler;
 	
-	public TronState(GamePanel p)
+	public TronState(GamePanel p, DataStreamHandler dataStreamHandler)
 	{
+		this.dataStreamHandler = dataStreamHandler;
 		panel = p;
 		isFinished = false;
 		menuFont = panel.getMenuFont();
@@ -37,11 +38,11 @@ public class TronState extends GameState{
 		g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 		
 		g2.setFont(new Font("Arial", Font.ITALIC, 40));
-		g2.setPaint(dataStream.getPlayers().get(0).getTailColor());
-		g2.drawString(dataStream.getPlayers().get(0).getName(), 50, 100);
+		g2.setPaint(dataStreamHandler.getPlayers().get(0).getTailColor());
+		g2.drawString(dataStreamHandler.getPlayers().get(0).getName(), 50, 100);
 		
-		g2.setPaint(dataStream.getPlayers().get(1).getTailColor());
-		g2.drawString(dataStream.getPlayers().get(1).getName(), 50, 200);
+		g2.setPaint(dataStreamHandler.getPlayers().get(1).getTailColor());
+		g2.drawString(dataStreamHandler.getPlayers().get(1).getName(), 50, 200);
 		
 		g2.setPaint(new Color(15,15,15));
 		g2.fillRect((panel.getParent().getWidth()/2) - 700, (panel.getParent().getHeight()/2) - 500 , 1400, 1000);
@@ -64,7 +65,7 @@ public class TronState extends GameState{
 		}
 		else
 		{
-			for(Player p : dataStream.getPlayers())
+			for(Player p : dataStreamHandler.getPlayers())
 			{
 				drawPlayer(g2, p);
 			}
@@ -115,9 +116,9 @@ public class TronState extends GameState{
 	
 	public void setPlayerDirection(int playerID, String newDirection)
 	{
-		if(newDirection != getPlayerDirection(dataStream.getPlayers().get(playerID)))
+		if(newDirection != getPlayerDirection(dataStreamHandler.getPlayers().get(playerID)))
 		{
-			dataStream.getPlayers().get(playerID).setCurrentDirection(newDirection);
+			dataStreamHandler.getPlayers().get(playerID).setCurrentDirection(newDirection);
 		}
 	}
 		
@@ -137,59 +138,54 @@ public class TronState extends GameState{
 
 	public void playerUpdate(int index)
 	{
-		dataStream.getPlayers().get(index).addTail(dataStream.getPlayers().get(index).getPosition());
+		dataStreamHandler.getPlayers().get(index).addTail(dataStreamHandler.getPlayers().get(index).getPosition());
 		
-		switch(dataStream.getPlayers().get(index).getCurrentDirection())
+		switch(dataStreamHandler.getPlayers().get(index).getCurrentDirection())
 		{
 			case "right":
-				if(dataStream.getPlayers().get(index).getPosition().getX() < 690)
+				if(dataStreamHandler.getPlayers().get(index).getPosition().getX() < 690)
 				{
-					dataStream.getPlayers().get(index).setPosition(new Point2D.Double(dataStream.getPlayers().get(index).getPosition().getX() + 6, dataStream.getPlayers().get(index).getPosition().getY()));
+					dataStreamHandler.getPlayers().get(index).setPosition(new Point2D.Double(dataStreamHandler.getPlayers().get(index).getPosition().getX() + 6, dataStreamHandler.getPlayers().get(index).getPosition().getY()));
 				}
 			break;
 			case "up":
-				if(dataStream.getPlayers().get(index).getPosition().getY() > -494)
+				if(dataStreamHandler.getPlayers().get(index).getPosition().getY() > -494)
 				{
-					dataStream.getPlayers().get(index).setPosition(new Point2D.Double(dataStream.getPlayers().get(index).getPosition().getX(), dataStream.getPlayers().get(index).getPosition().getY() - 6));
+					dataStreamHandler.getPlayers().get(index).setPosition(new Point2D.Double(dataStreamHandler.getPlayers().get(index).getPosition().getX(), dataStreamHandler.getPlayers().get(index).getPosition().getY() - 6));
 				}
 			break;
 			case "left":
-				if(dataStream.getPlayers().get(index).getPosition().getX() > -696)
+				if(dataStreamHandler.getPlayers().get(index).getPosition().getX() > -696)
 				{
-					dataStream.getPlayers().get(index).setPosition(new Point2D.Double(dataStream.getPlayers().get(index).getPosition().getX() - 6, dataStream.getPlayers().get(index).getPosition().getY()));	
+					dataStreamHandler.getPlayers().get(index).setPosition(new Point2D.Double(dataStreamHandler.getPlayers().get(index).getPosition().getX() - 6, dataStreamHandler.getPlayers().get(index).getPosition().getY()));	
 				}
 			break;
 			case "down":
-				if(dataStream.getPlayers().get(index).getPosition().getY() < 486)
+				if(dataStreamHandler.getPlayers().get(index).getPosition().getY() < 486)
 				{
-					dataStream.getPlayers().get(index).setPosition(new Point2D.Double(dataStream.getPlayers().get(index).getPosition().getX(), dataStream.getPlayers().get(index).getPosition().getY() + 6));
+					dataStreamHandler.getPlayers().get(index).setPosition(new Point2D.Double(dataStreamHandler.getPlayers().get(index).getPosition().getX(), dataStreamHandler.getPlayers().get(index).getPosition().getY() + 6));
 				}
 			break;
 		}
 		
-		for(int i = 0; i < dataStream.getPlayers().size(); i++)
+		for(int i = 0; i < dataStreamHandler.getPlayers().size(); i++)
 		{
-			if(dataStream.getPlayers().get(i).getTail().contains(dataStream.getPlayers().get(index).getPosition()))
+			if(dataStreamHandler.getPlayers().get(i).getTail().contains(dataStreamHandler.getPlayers().get(index).getPosition()))
 			{
 				isFinished(true);
 				if(index == 1)
 				{
-					winner = dataStream.getPlayers().get(0);
+					winner = dataStreamHandler.getPlayers().get(0);
 				}
 				else
 				{
-					winner = dataStream.getPlayers().get(1);
+					winner = dataStreamHandler.getPlayers().get(1);
 				}
 				
 			}
 		}
 		
 		
-	}
-	
-	public void setDataStream(DataStreamHandler data)
-	{
-		dataStream = data;
 	}
 	
 	public void isFinished(boolean gameFinished)
@@ -199,8 +195,8 @@ public class TronState extends GameState{
 	
 	public void resetGame()
 	{
-		dataStream.getPlayers().get(0).reset();
-		dataStream.getPlayers().get(1).reset();
+		dataStreamHandler.getPlayers().get(0).reset();
+		dataStreamHandler.getPlayers().get(1).reset();
 		isFinished = false;
 	}
 		
