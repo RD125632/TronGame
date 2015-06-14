@@ -6,17 +6,20 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 import Logix.DataStreamHandler;
+import Logix.StateHandler;
 
 public class Client implements Runnable{
 
 	private Socket socket;
 	private ClientController clientController;
 	private DataStreamHandler dataStreamHandler;
+	private StateHandler state;
 	
-	public Client(ClientController clientController)
+	public Client(ClientController clientController, DataStreamHandler dataStreamHandler)
 	{
+		this.state = state;
 		this.clientController = clientController;
-		this.dataStreamHandler = new DataStreamHandler();
+		this.dataStreamHandler = dataStreamHandler;
 		this.dataStreamHandler.setStatus("Initialized");
 		
 		System.out.println("The client status is: " + dataStreamHandler.getStatus());
@@ -35,7 +38,7 @@ public class Client implements Runnable{
 		
 		
 		System.out.println("connected to server");
-		
+		dataStreamHandler.setPlayersJoined(true);
 		
 		try 
 		{			
@@ -45,7 +48,6 @@ public class Client implements Runnable{
 				ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
 				
 				oos.writeObject(dataStreamHandler);
-				
 				dataStreamHandler = (DataStreamHandler) ois.readObject();
 				
 			}

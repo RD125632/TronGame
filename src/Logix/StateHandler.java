@@ -21,21 +21,21 @@ public class StateHandler
 	private GameState searchState;
 	private GameState tronState;
 	
-	public StateHandler(GamePanel f)
+	public StateHandler(GamePanel f, DataStreamHandler dataStreamHandler)
 	{
 		panel = f;
-		initializeStates();
+		initializeStates(dataStreamHandler);
 		index = 0;
 		currentState = menuState;
 	}
 	
-	public void initializeStates() { 
+	public void initializeStates(DataStreamHandler dataStreamHandler) { 
 		menuState = new MenuState(panel);
 		joinFormState = new JoinFormState(panel);
 		hostFormState = new HostFormState(panel);
 		localFormState = new LocalFormState(panel);
-		searchState = new SearchState(panel);
-		tronState = new TronState(panel);
+		searchState = new SearchState(panel, this, dataStreamHandler);
+		tronState = new TronState(panel, dataStreamHandler);
 	}
 	public int getIndex()
 	{

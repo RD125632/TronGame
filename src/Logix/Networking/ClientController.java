@@ -4,17 +4,19 @@ package Logix.Networking;
 import java.net.InetAddress;
 
 import Logix.DataStreamHandler;
+import Logix.StateHandler;
 
 public class ClientController {
 	
 	private Thread client;
 	private boolean connected = false;
 	private InetAddress Inetadres = null;
-	private DataStreamHandler dataStream;
+	private DataStreamHandler dataStreamHandler;
 	
-	public ClientController()
+	public ClientController(DataStreamHandler dataStreamHandler)
 	{
-		this.client = new Thread(new Client(this));
+		this.dataStreamHandler = dataStreamHandler;
+		this.client = new Thread(new Client(this, dataStreamHandler));
 		client.start();
 	}
 	
@@ -38,12 +40,12 @@ public class ClientController {
 	
 	public void setDataSteam(DataStreamHandler data)
 	{
-		dataStream = data;
+		dataStreamHandler = data;
 	}
 	
 	public DataStreamHandler getDataSteam()
 	{
-		return dataStream;
+		return dataStreamHandler;
 	}
 	
 

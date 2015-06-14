@@ -6,16 +6,19 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import Logix.DataStreamHandler;
+import Logix.StateHandler;
 
 public class Server implements Runnable{
 	
 	private ServerSocket serversocket;
 	private ServerController serverController;
 	private DataStreamHandler dataStreamHandler;
-	
-	public Server(ServerController serverController) {
+	private StateHandler stateHandler;
+	public Server(ServerController serverController, StateHandler stateHandler, DataStreamHandler dataStreamHandler) 
+	{
+		this.stateHandler = stateHandler;
 		this.serverController = serverController;
-		this.dataStreamHandler = new DataStreamHandler();
+		this.dataStreamHandler = dataStreamHandler;
 		this.serverController.setDataSteam(dataStreamHandler);
 	}
 	
@@ -35,6 +38,11 @@ public class Server implements Runnable{
 				ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
 				
 				dataStreamHandler = (DataStreamHandler) ois.readObject();
+				if(dataStreamHandler.getPlayerJoined())
+				{
+					stateHandler.setCurrentState("tronState");
+					dataStreamHandler.setPlayersJoined(false);
+				}
 				dataStreamHandler.setStatus("WORKING");
 				oos.writeObject(dataStreamHandler);
 			}

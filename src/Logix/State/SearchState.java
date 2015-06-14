@@ -13,6 +13,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 
 import Logix.DataStreamHandler;
+import Logix.StateHandler;
 import Logix.Networking.ClientController;
 import Logix.Networking.ServerController;
 import Logix.Objects.Player;
@@ -27,10 +28,13 @@ public class SearchState extends GameState {
 	private int inRadius = 10;
 	private DataStreamHandler dataStream;
 	private boolean isConnected;
+	private StateHandler stateHandler;
+	private DataStreamHandler dataStreamHandler;
 	
-	
-	public SearchState(GamePanel p)
+	public SearchState(GamePanel p, StateHandler stateHandler, DataStreamHandler dataStreamHandler)
 	{
+		this.dataStreamHandler = dataStreamHandler;
+		this.stateHandler = stateHandler;
 		panel = p;
 	}
  
@@ -44,13 +48,13 @@ public class SearchState extends GameState {
 		if(state instanceof HostFormState)
 		{
 			setLastState(state);
-			ServerController s = new ServerController();
+			ServerController s = new ServerController(stateHandler, dataStreamHandler);
 			dataStream = s.getDataSteam();
 		}
 		else if(state instanceof JoinFormState)
 		{
 			setLastState(state);
-			ClientController c = new ClientController();	
+			ClientController c = new ClientController(dataStreamHandler);	
 			dataStream = c.getDataSteam();
 		}
 		
