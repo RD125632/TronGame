@@ -3,6 +3,7 @@ package Logix;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
+
 import Logix.Objects.InputField;
 import Logix.State.GameState;
 import Logix.State.HostFormState;
@@ -178,8 +179,13 @@ public class EventHandler {
 				{
 					statesHandler.setCurrentState("tronState");
 					menuLevel = 3;
-					TronState ts = (TronState)statesHandler.getCurrentState();
-					ts.setPlayers(menu.getForm().get(0).getText(), menu.getForm().get(1).getText());
+					
+					dataStream = new DataStreamHandler();					
+					dataStream.getPlayers().get(0).setName(menu.getForm().get(0).getText());
+					dataStream.getPlayers().get(1).setName(menu.getForm().get(1).getText());
+					
+					TronState tron = (TronState)statesHandler.getState("tronState");
+					tron.setDataStream(dataStream);
 				}
 				
 				else if(keyCode == KeyEvent.VK_ESCAPE)
@@ -346,7 +352,7 @@ public class EventHandler {
 	public void menuL2(int keyCode, KeyEvent e)
 		{		
 			SearchState state = (SearchState) statesHandler.getState("searchState");
-				
+
 			if(keyCode == KeyEvent.VK_ESCAPE)
 			{
 				statesHandler.setCurrentState("menuState");
