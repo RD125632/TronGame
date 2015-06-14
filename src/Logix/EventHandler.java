@@ -67,19 +67,9 @@ public class EventHandler {
 		switch( keyCode ) 
 		{ 
 			case KeyEvent.VK_ESCAPE:
-				if(state instanceof HostFormState)
+				if(state instanceof HostFormState || state instanceof LocalFormState || state instanceof JoinFormState)
 				{
-					statesHandler.setIndex(statesHandler.getIndex() - 2);
-    				statesHandler.select(statesHandler.getIndex());
-				}
-				else if(state instanceof LocalFormState)
-				{
-					statesHandler.setIndex(statesHandler.getIndex() - 3);
-    				statesHandler.select(statesHandler.getIndex());
-				}
-				else if(state instanceof JoinFormState)
-				{
-					statesHandler.back();
+    				statesHandler.setCurrentState("menuState");
 				}
 				else
 				{
@@ -98,15 +88,13 @@ public class EventHandler {
 	        		switch( item ) 
 	    			{ 
         			case "Join Game" :
-        				statesHandler.next();
+        				statesHandler.setCurrentState("joinFormState");
         				break;
         			case "Host Game" :
-         				statesHandler.setIndex(statesHandler.getIndex() + 2);
-        				statesHandler.select(statesHandler.getIndex());
+        				statesHandler.setCurrentState("hostFormState");
         				break;
         			case "Local Game" :
-         				statesHandler.setIndex(statesHandler.getIndex() + 3);
-        				statesHandler.select(statesHandler.getIndex());
+        				statesHandler.setCurrentState("localFormState");
         				break;
         			case "Start" :
         					LocalFormState localTemp = (LocalFormState)state;
@@ -127,20 +115,7 @@ public class EventHandler {
     						hostState.setPopUp(true);
     					break;
         			case "Back" :
-        				if(state instanceof HostFormState)
-        				{
-        					statesHandler.setIndex(statesHandler.getIndex() - 2);
-            				statesHandler.select(statesHandler.getIndex());
-        				}
-        				else if(state instanceof LocalFormState)
-        				{
-        					statesHandler.setIndex(statesHandler.getIndex() - 3);
-            				statesHandler.select(statesHandler.getIndex());
-        				}
-        				else
-        				{
-        					statesHandler.back();
-        				}
+        					statesHandler.setCurrentState("menuState");
         				break;
 	        			case "Exit" :
 	        				System.exit(0);
@@ -157,8 +132,7 @@ public class EventHandler {
 		switch( keyCode ) 
 		{ 
 			case KeyEvent.VK_ESCAPE:
-				statesHandler.setIndex(0);
-				statesHandler.select(statesHandler.getIndex());
+				statesHandler.setCurrentState("menuState");
 				menuLevel = 0;
 				state.resetGame();
 				break;
@@ -202,8 +176,7 @@ public class EventHandler {
 				LocalFormState menu = (LocalFormState)statesHandler.getCurrentState();
 				if(keyCode == KeyEvent.VK_ENTER)
 				{
-					statesHandler.setIndex(statesHandler.getIndex() + 2);
-					statesHandler.select(statesHandler.getIndex());
+					statesHandler.setCurrentState("tronState");
 					menuLevel = 3;
 					TronState ts = (TronState)statesHandler.getCurrentState();
 					ts.setPlayers(menu.getForm().get(0).getText(), menu.getForm().get(1).getText());
@@ -254,8 +227,7 @@ public class EventHandler {
 				if(keyCode == KeyEvent.VK_ENTER)
 				{
 					
-					statesHandler.setIndex(statesHandler.getIndex() + 3);
-					statesHandler.select(statesHandler.getIndex());
+					statesHandler.setCurrentState("searchState");
 					
 					SearchState giveLast = (SearchState)statesHandler.getCurrentState();
 					giveLast.startSearch(menu);
@@ -309,8 +281,7 @@ public class EventHandler {
 				HostFormState menu = (HostFormState)statesHandler.getCurrentState();
 				if(keyCode == KeyEvent.VK_ENTER)
 				{
-					statesHandler.setIndex(statesHandler.getIndex() + 2);
-					statesHandler.select(statesHandler.getIndex());
+					statesHandler.setCurrentState("searchState");
 					
 					SearchState giveLast = (SearchState)statesHandler.getCurrentState();
 					giveLast.startSearch(menu);
@@ -374,29 +345,18 @@ public class EventHandler {
 		
 	public void menuL2(int keyCode, KeyEvent e)
 		{		
-			SearchState state = (SearchState)statesHandler.getCurrentState();
-			
+			SearchState state = (SearchState) statesHandler.getState("searchState");
+				
 			if(keyCode == KeyEvent.VK_ESCAPE)
 			{
-				
-				if(state.getLastState() instanceof HostFormState)
-				{
-					menuLevel = 0;
-					statesHandler.back();
-				}
-				else
-				{
-					menuLevel = 0;
-					statesHandler.setIndex(statesHandler.getIndex() - 2);
-					statesHandler.select(statesHandler.getIndex());
-				}
+				statesHandler.setCurrentState("menuState");
 			}
 			else if(keyCode == KeyEvent.VK_ALT)
 			{
 				if(state.isConnected() == true)
 				{					
-					statesHandler.next();
-					TronState tron = (TronState)statesHandler.getState(5);
+					statesHandler.setCurrentState("tronState");
+					TronState tron = (TronState) statesHandler.getState("tronState");
 					tron.setDataStream(dataStream);
 				}
 			}

@@ -48,7 +48,6 @@ public class Client implements Runnable{
 				
 				dataStreamHandler = (DataStreamHandler) ois.readObject();
 				
-				System.out.println("The client status is: " + dataStreamHandler.getStatus());
 			}
 		} catch (Exception e) 
 		{

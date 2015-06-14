@@ -27,6 +27,7 @@ public class Server implements Runnable{
 			
 			Socket socket = serversocket.accept();
 			System.out.println("player joined");
+			dataStreamHandler.setPlayersJoined(true);
 			
 			while(true)
 			{
@@ -34,7 +35,6 @@ public class Server implements Runnable{
 				ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
 				
 				dataStreamHandler = (DataStreamHandler) ois.readObject();
-				System.out.println("The server status is: " + dataStreamHandler.getStatus());
 				dataStreamHandler.setStatus("WORKING");
 				oos.writeObject(dataStreamHandler);
 			}

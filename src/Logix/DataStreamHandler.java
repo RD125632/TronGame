@@ -12,6 +12,7 @@ public class DataStreamHandler implements Serializable
 	private static final long serialVersionUID = 1L;
 	private String status = null;
 	private List<Player> playerList;
+	private boolean playersJoined = false;
 	
 	public DataStreamHandler()
 	{
@@ -40,5 +41,15 @@ public class DataStreamHandler implements Serializable
 	public List<Player> getPlayers()
 	{
 		return playerList;
+	}
+	
+	public void setPlayersJoined(Boolean bool)
+	{
+		playersJoined = bool;
+	}
+	
+	public boolean getPlayerJoined()
+	{
+		return playersJoined;
 	}
 }

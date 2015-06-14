@@ -1,39 +1,42 @@
 package Logix;
 
-import java.util.ArrayList;
-
-import Logix.State.*;
+import Logix.State.GameState;
+import Logix.State.HostFormState;
+import Logix.State.JoinFormState;
+import Logix.State.LocalFormState;
+import Logix.State.MenuState;
+import Logix.State.SearchState;
+import Logix.State.TronState;
 import Visual.GamePanel;
 
 public class StateHandler 
 {
-	private ArrayList<GameState> gameStates = new ArrayList<GameState>();
 	private GameState currentState;
 	private int index;
 	private GamePanel panel;
+	private GameState menuState;
+	private GameState joinFormState;
+	private GameState hostFormState;
+	private GameState localFormState;
+	private GameState searchState;
+	private GameState tronState;
 	
 	public StateHandler(GamePanel f)
 	{
 		panel = f;
 		initializeStates();
 		index = 0;
-		currentState = gameStates.get(index);
+		currentState = menuState;
 	}
 	
 	public void initializeStates() { 
-		gameStates.clear();
-		gameStates.add(new MenuState(panel));
-		gameStates.add(new JoinFormState(panel));
-		gameStates.add(new HostFormState(panel));
-		gameStates.add(new LocalFormState(panel));
-		gameStates.add(new SearchState(panel));
-		gameStates.add(new TronState(panel));
+		menuState = new MenuState(panel);
+		joinFormState = new JoinFormState(panel);
+		hostFormState = new HostFormState(panel);
+		localFormState = new LocalFormState(panel);
+		searchState = new SearchState(panel);
+		tronState = new TronState(panel);
 	}
-	
-	public void select(int i)  { currentState = gameStates.get(i); }
-	public void next(){ index++; currentState = gameStates.get(index); }
-	public void back(){ index--; currentState = gameStates.get(index); }
-	
 	public int getIndex()
 	{
 		return index;
@@ -45,12 +48,56 @@ public class StateHandler
 	}
 	
 	
-	public GameState getCurrentState(){
+	public GameState getCurrentState()
+	{
 		return currentState;
 	}
 	
-	public GameState getState(int i)
+	public void setCurrentState(String state)
 	{
-		return gameStates.get(i);
+		switch(state)
+		{
+		case "menuState":
+			currentState = menuState;
+			break;
+		case "joinFormState":
+			currentState = joinFormState;
+			break;
+		case "hostFormState":
+			currentState = hostFormState;
+			break;
+		case "localFormState":
+			currentState = localFormState;
+			break;
+		case "searchState":
+			currentState = searchState;
+			break;
+		case "tronState":
+			currentState = tronState;
+			break;
+		default:
+			break;
+		}
+	}
+	
+	public GameState getState(String state)
+	{
+		switch(state)
+		{
+		case "menuState":
+			return menuState;
+		case "joinFormState":
+			return joinFormState;
+		case "hostFormState":
+			return hostFormState;
+		case "localFormState":
+			return localFormState;
+		case "searchState":
+			return searchState;
+		case "tronState":
+			return tronState;
+		default:
+			return null;
+		}
 	}
 }
