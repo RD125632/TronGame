@@ -48,4 +48,9 @@ public class StateHandler
 	public GameState getCurrentState(){
 		return currentState;
 	}
+	
+	public GameState getState(int i)
+	{
+		return gameStates.get(i);
+	}
 }

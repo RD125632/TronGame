@@ -1,6 +1,7 @@
 package Logix;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import Logix.Objects.Player;
@@ -12,6 +13,13 @@ public class DataStreamHandler implements Serializable
 	private String status = null;
 	private List<Player> playerList;
 	
+	public DataStreamHandler()
+	{
+		playerList = new ArrayList<Player>();
+		playerList.add(new Player("p1", 0));
+		playerList.add(new Player("p2", 1));
+	}
+	
 	public void setStatus(String status)
 	{
 		this.status = status;
@@ -21,6 +29,7 @@ public class DataStreamHandler implements Serializable
 	{
 		return status;
 	}
+	
 	
 	
 	public void setPlayer(Player player)

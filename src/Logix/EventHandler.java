@@ -3,7 +3,6 @@ package Logix;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
-
 import Logix.Objects.InputField;
 import Logix.State.GameState;
 import Logix.State.HostFormState;
@@ -17,6 +16,7 @@ public class EventHandler {
 	private StateHandler statesHandler;
 	private int menuLevel;
 	private List<Integer> acceptedChars;
+	private DataStreamHandler dataStream;
 	
 	public EventHandler(StateHandler states)
 	{
@@ -253,14 +253,20 @@ public class EventHandler {
 				JoinFormState menu = (JoinFormState)statesHandler.getCurrentState();
 				if(keyCode == KeyEvent.VK_ENTER)
 				{
+					
 					statesHandler.setIndex(statesHandler.getIndex() + 3);
 					statesHandler.select(statesHandler.getIndex());
 					
 					SearchState giveLast = (SearchState)statesHandler.getCurrentState();
 					giveLast.startSearch(menu);
 					menu.setPopUp(false);
-					
+
+					dataStream = giveLast.getDataStream();
 					menuLevel = 2;
+					
+				
+					dataStream.getPlayers().get(1).setName(menu.getForm().get(0).getText());
+					
 				}
 				else if(keyCode == KeyEvent.VK_LEFT || keyCode == KeyEvent.VK_ESCAPE)
 				{
@@ -309,7 +315,10 @@ public class EventHandler {
 					SearchState giveLast = (SearchState)statesHandler.getCurrentState();
 					giveLast.startSearch(menu);
 					menu.setPopUp(false);
+					dataStream = giveLast.getDataStream();
 					menuLevel = 2;
+										
+					dataStream.getPlayers().get(0).setName(menu.getForm().get(0).getText());
 					
 					for(int i = 0; i < menu.getForm().size(); i++)
 					{
@@ -365,11 +374,10 @@ public class EventHandler {
 		
 	public void menuL2(int keyCode, KeyEvent e)
 		{		
-			SearchState state =(SearchState)statesHandler.getCurrentState();
+			SearchState state = (SearchState)statesHandler.getCurrentState();
 			
 			if(keyCode == KeyEvent.VK_ESCAPE)
 			{
-				
 				
 				if(state.getLastState() instanceof HostFormState)
 				{
@@ -383,17 +391,15 @@ public class EventHandler {
 					statesHandler.select(statesHandler.getIndex());
 				}
 			}
-			else if(keyCode == KeyEvent.VK_ENTER)
+			else if(keyCode == KeyEvent.VK_ALT)
 			{
 				if(state.isConnected() == true)
 				{					
 					statesHandler.next();
-					TronState tron = (TronState)statesHandler.getCurrentState();
-					tron.setPlayers(state.getDataStream().getPlayers());
+					TronState tron = (TronState)statesHandler.getState(5);
+					tron.setDataStream(dataStream);
 				}
 			}
-			
-			
 		}
 	
 	private void newSelection(int i, List<InputField> menu, boolean isUP)

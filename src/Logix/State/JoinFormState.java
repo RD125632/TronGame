@@ -33,7 +33,6 @@ public class JoinFormState extends GameState{
 		
 		formList = new ArrayList<InputField>();
 		formList.add(new InputField("Player Name"));
-		formList.add(new InputField("Host Address"));
 	}
 
 	@Override

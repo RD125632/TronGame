@@ -15,6 +15,7 @@ import java.awt.geom.Ellipse2D;
 import Logix.DataStreamHandler;
 import Logix.Networking.ClientController;
 import Logix.Networking.ServerController;
+import Logix.Objects.Player;
 import Visual.GamePanel;
 
 public class SearchState extends GameState {
@@ -45,7 +46,6 @@ public class SearchState extends GameState {
 			setLastState(state);
 			ServerController s = new ServerController();
 			dataStream = s.getDataSteam();
-			
 		}
 		else if(state instanceof JoinFormState)
 		{
@@ -54,11 +54,11 @@ public class SearchState extends GameState {
 			dataStream = c.getDataSteam();
 		}
 		
-		
 	}
 	
 	@Override
 	public void draw(Graphics2D g2) {
+
 		g2.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		drawWaitAnimation(g2);
@@ -119,14 +119,21 @@ public class SearchState extends GameState {
 			try 
 			{
 				r = new Robot();
-				r.keyPress(KeyEvent.VK_ENTER);
+				r.keyPress(KeyEvent.VK_ALT);
+				r.keyRelease(KeyEvent.VK_ALT);
 			} catch (AWTException e) {
 				e.printStackTrace();
 			}	
 			
-			if(dataStream.getStatus() == "Initialized" || dataStream.getStatus() == "WORKING")
+			if(dataStream.getStatus() == "Initialized")
 			{
 					isConnected = true;
+					dataStream.setPlayer(new Player(((JoinFormState) lastState).getForm().get(0).getText(), 1));
+			}
+			else if(dataStream.getStatus() == "WORKING")
+			{
+					dataStream.setPlayer(new Player(((HostFormState) lastState).getForm().get(0).getText(), 0));
+					
 			}
 		}
 		

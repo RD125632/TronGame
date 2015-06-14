@@ -16,8 +16,9 @@ public class Client implements Runnable{
 	public Client(ClientController clientController)
 	{
 		this.clientController = clientController;
-		dataStreamHandler = new DataStreamHandler();
-		dataStreamHandler.setStatus("Initialized");
+		this.dataStreamHandler = new DataStreamHandler();
+		this.dataStreamHandler.setStatus("Initialized");
+		
 		System.out.println("The client status is: " + dataStreamHandler.getStatus());
 		
 		this.clientController.setDataSteam(dataStreamHandler);

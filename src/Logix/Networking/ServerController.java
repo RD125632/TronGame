@@ -1,6 +1,5 @@
 package Logix.Networking;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +37,6 @@ public class ServerController {
 	public void addPlayer(String name)
 	{
 		int n = players.size();
-		players.add(new Player(name, Color.red, n));
+		players.add(new Player(name, n));
 	}
 }

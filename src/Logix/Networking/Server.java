@@ -11,10 +11,11 @@ public class Server implements Runnable{
 	
 	private ServerSocket serversocket;
 	private ServerController serverController;
-	private DataStreamHandler dataStreamHandler = null;
+	private DataStreamHandler dataStreamHandler;
 	
 	public Server(ServerController serverController) {
 		this.serverController = serverController;
+		this.dataStreamHandler = new DataStreamHandler();
 		this.serverController.setDataSteam(dataStreamHandler);
 	}
 	

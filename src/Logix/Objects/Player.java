@@ -2,34 +2,38 @@ package Logix.Objects;
 
 import java.awt.Color;
 import java.awt.geom.Point2D;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Player {
+public class Player implements Serializable{
 
+	private static final long serialVersionUID = 1L;
 	private String name, direction;
 	private Color tailColor;
 	private List<Point2D> tail;
 	private Point2D position;
 	private int id;
 	
-	public Player(String name, Color color, int playerNumber)
+	public Player(String name, int playerNumber)
 	{
 		this.setName(name);
-		this.setTailColor(color);
-		this.tail = new ArrayList<Point2D>();
-		this.id = playerNumber;
 		
-		if(id == 1)
+		if(playerNumber == 0)
 		{
+			this.setTailColor(Color.red);
 			this.position = new Point2D.Double(-100,-100);
 			this.direction = "up";
 		}
-		else if(id == 2)
+		else
 		{
+			this.setTailColor(Color.green);
 			this.position = new Point2D.Double(100,100);
 			this.direction = "down";
-		}	
+		}
+		
+		this.tail = new ArrayList<Point2D>();
+		this.id = playerNumber;
 	}
 	
 	public int getID()
