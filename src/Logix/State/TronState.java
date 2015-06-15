@@ -9,13 +9,14 @@ import java.awt.RenderingHints;
 import java.awt.Stroke;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
+import java.io.Serializable;
 
 import Logix.DataStreamHandler;
 import Logix.Objects.Player;
 import Visual.GamePanel;
 
-public class TronState extends GameState{
-	
+public class TronState extends GameState implements Serializable
+{
 	private GamePanel panel;
 	private Font menuFont;
 	private Player winner;

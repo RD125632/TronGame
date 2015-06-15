@@ -4,14 +4,15 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import Visual.GamePanel;
 
 
-public class MenuState extends GameState {
-	
+public class MenuState extends GameState  implements Serializable
+{
 	private Font menuFont;
 	private GamePanel panel;
 	private List<String> string;

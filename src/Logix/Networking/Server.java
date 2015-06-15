@@ -7,6 +7,7 @@ import java.net.Socket;
 
 import Logix.DataStreamHandler;
 import Logix.StateHandler;
+import Logix.State.TronState;
 
 public class Server implements Runnable{
 	
@@ -14,6 +15,8 @@ public class Server implements Runnable{
 	private ServerController serverController;
 	private DataStreamHandler dataStreamHandler;
 	private StateHandler stateHandler;
+	private int id = 0;
+	
 	public Server(ServerController serverController, StateHandler stateHandler, DataStreamHandler dataStreamHandler) 
 	{
 		this.stateHandler = stateHandler;
@@ -41,9 +44,12 @@ public class Server implements Runnable{
 				if(dataStreamHandler.getPlayerJoined())
 				{
 					stateHandler.setCurrentState("tronState");
+					//stateHandler.getCurrentState()
 					dataStreamHandler.setPlayersJoined(false);
+					dataStreamHandler.setTronState((TronState) stateHandler.getCurrentState());
 				}
 				dataStreamHandler.setStatus("WORKING");
+				dataStreamHandler.setId(id);
 				oos.writeObject(dataStreamHandler);
 			}
 			

@@ -1,10 +1,11 @@
 package Logix.State;
 
 import java.awt.Graphics2D;
+import java.io.Serializable;
 
 
-public abstract class GameState {
-	
+public abstract class GameState  implements Serializable
+{
 	public GameState() {}
 	public abstract void draw(Graphics2D g2);
 	public abstract void update();

@@ -11,6 +11,7 @@ import java.awt.Shape;
 import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
+import java.io.Serializable;
 
 import Logix.DataStreamHandler;
 import Logix.StateHandler;
@@ -19,8 +20,8 @@ import Logix.Networking.ServerController;
 import Logix.Objects.Player;
 import Visual.GamePanel;
 
-public class SearchState extends GameState {
-
+public class SearchState extends GameState  implements Serializable
+{
 	private GameState lastState;
 	private GamePanel panel;
 	private int rotateCount = 0;

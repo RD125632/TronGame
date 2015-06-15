@@ -1,6 +1,7 @@
 package Logix;
 
 import java.awt.event.KeyEvent;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,8 +13,8 @@ import Logix.State.LocalFormState;
 import Logix.State.SearchState;
 import Logix.State.TronState;
 
-public class EventHandler {
-
+public class EventHandler implements Serializable
+{
 	private StateHandler statesHandler;
 	private int menuLevel;
 	private List<Integer> acceptedChars;
@@ -55,8 +56,11 @@ public class EventHandler {
 			case 2:
 				menuL2(keyCode, e);
 			break;
-			case 3:;
+			case 3:
 				menuL3(keyCode);
+				break;
+			case 4:
+				menuL4(keyCode);
 				break;
 		}
 		
@@ -178,8 +182,17 @@ public class EventHandler {
 				LocalFormState menu = (LocalFormState)statesHandler.getCurrentState();
 				if(keyCode == KeyEvent.VK_ENTER)
 				{
-					statesHandler.setCurrentState("tronState");
-					menuLevel = 3;
+					if (statesHandler.getCurrentState() instanceof LocalFormState)
+					{
+						statesHandler.setCurrentState("tronState");
+						menuLevel = 3;
+					}
+					else
+					{
+						statesHandler.setCurrentState("tronState");
+						menuLevel = 4;
+					}
+					
 									
 					dataStreamHandler.getPlayers().get(0).setName(menu.getForm().get(0).getText());
 					dataStreamHandler.getPlayers().get(1).setName(menu.getForm().get(1).getText());
@@ -414,4 +427,32 @@ public class EventHandler {
 	}
 	
 	
+	public void menuL4(int keyCode)
+	{
+		TronState state = (TronState) statesHandler.getCurrentState();
+			
+		switch( keyCode ) 
+		{ 
+			case KeyEvent.VK_ESCAPE:
+				statesHandler.setCurrentState("menuState");
+				menuLevel = 0;
+				state.resetGame();
+				break;
+			case KeyEvent.VK_RIGHT:
+				dataStreamHandler.setPlayerDirection("right");
+				break;
+	        case KeyEvent.VK_UP:
+	        	dataStreamHandler.setPlayerDirection("up");
+	        	break;
+	        case KeyEvent.VK_DOWN:
+	        	dataStreamHandler.setPlayerDirection("down");
+	        	break;
+	        case KeyEvent.VK_LEFT:
+	        	dataStreamHandler.setPlayerDirection("left");
+	        	break;
+	        case KeyEvent.VK_SPACE:
+	        	state.resetGame();
+	        	break;
+		}	
+	}
 }

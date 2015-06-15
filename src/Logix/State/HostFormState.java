@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.io.Serializable;
 import java.net.Inet4Address;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -13,8 +14,8 @@ import java.util.List;
 import Logix.Objects.InputField;
 import Visual.GamePanel;
 
-public class HostFormState extends GameState{
-	
+public class HostFormState extends GameState implements Serializable
+{
 	private Font menuFont;
 	private GamePanel panel;
 	private List<String> string;

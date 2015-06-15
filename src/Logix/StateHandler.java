@@ -1,5 +1,7 @@
 package Logix;
 
+import java.io.Serializable;
+
 import Logix.State.GameState;
 import Logix.State.HostFormState;
 import Logix.State.JoinFormState;
@@ -9,7 +11,7 @@ import Logix.State.SearchState;
 import Logix.State.TronState;
 import Visual.GamePanel;
 
-public class StateHandler 
+public class StateHandler implements Serializable
 {
 	private GameState currentState;
 	private int index;

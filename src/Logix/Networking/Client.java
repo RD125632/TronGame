@@ -14,6 +14,7 @@ public class Client implements Runnable{
 	private ClientController clientController;
 	private DataStreamHandler dataStreamHandler;
 	private StateHandler state;
+	private int id = 1;
 	
 	public Client(ClientController clientController, DataStreamHandler dataStreamHandler)
 	{
@@ -38,18 +39,20 @@ public class Client implements Runnable{
 		
 		
 		System.out.println("connected to server");
-		dataStreamHandler.setPlayersJoined(true);
 		
 		try 
-		{			
+		{
+			ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+			ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
+			
+			dataStreamHandler.setPlayersJoined(true);
+			oos.writeObject(dataStreamHandler);
+					
 			while(true)
 			{
-				ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
-				ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
-				
-				oos.writeObject(dataStreamHandler);
 				dataStreamHandler = (DataStreamHandler) ois.readObject();
-				
+				dataStreamHandler.setId(id);
+				oos.writeObject(dataStreamHandler);
 			}
 		} catch (Exception e) 
 		{

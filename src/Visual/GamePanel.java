@@ -22,7 +22,7 @@ public class GamePanel extends JPanel implements KeyListener {
 
 	private static final long serialVersionUID = 1L;
 	private LogixHandler control;
-	private BufferedImage image;
+	private  BufferedImage image;
 	private Font menuFont;
 	
 	public GamePanel()

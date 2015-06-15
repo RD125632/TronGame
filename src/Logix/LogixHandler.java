@@ -1,5 +1,6 @@
 package Logix;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,8 +8,8 @@ import Logix.Objects.Player;
 import Visual.GamePanel;
 
 
-public class LogixHandler {
-
+public class LogixHandler  implements Serializable
+{
 	private List<Player> players;
 	private GamePanel panel;
 	
@@ -19,6 +20,7 @@ public class LogixHandler {
 	public LogixHandler(GamePanel f)
 	{
 		dataStreamHandler = new DataStreamHandler();
+		
 		panel = f;
 		setPlayers(new ArrayList<Player>());
 		statesHandler = new StateHandler(panel, dataStreamHandler);
