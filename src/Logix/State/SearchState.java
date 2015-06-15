@@ -1,17 +1,13 @@
 package Logix.State;
 
-import java.awt.AWTException;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.awt.Robot;
 import java.awt.Shape;
-import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
-import java.io.Serializable;
 
 import Logix.DataStreamHandler;
 import Logix.StateHandler;
@@ -20,7 +16,7 @@ import Logix.Networking.ServerController;
 import Logix.Objects.Player;
 import Visual.GamePanel;
 
-public class SearchState extends GameState  implements Serializable
+public class SearchState extends GameState
 {
 	private GameState lastState;
 	private GamePanel panel;
@@ -50,12 +46,14 @@ public class SearchState extends GameState  implements Serializable
 		{
 			setLastState(state);
 			ServerController s = new ServerController(stateHandler, dataStreamHandler);
+			stateHandler.setIsClient(false);
 			dataStream = s.getDataSteam();
 		}
 		else if(state instanceof JoinFormState)
 		{
 			setLastState(state);
-			ClientController c = new ClientController(dataStreamHandler);	
+			ClientController c = new ClientController(dataStreamHandler);
+			stateHandler.setIsClient(true);
 			dataStream = c.getDataSteam();
 		}
 		
@@ -119,25 +117,16 @@ public class SearchState extends GameState  implements Serializable
 		
 		if(dataStream != null)
 		{
-			Robot r;
-			
-			try 
-			{
-				r = new Robot();
-				r.keyPress(KeyEvent.VK_ALT);
-				r.keyRelease(KeyEvent.VK_ALT);
-			} catch (AWTException e) {
-				e.printStackTrace();
-			}	
-			
 			if(dataStream.getStatus() == "Initialized")
 			{
 					isConnected = true;
 					dataStream.setPlayer(new Player(((JoinFormState) lastState).getForm().get(0).getText(), 1));
+					stateHandler.setCurrentState("tronState");
 			}
 			else if(dataStream.getStatus() == "WORKING")
 			{
 					dataStream.setPlayer(new Player(((HostFormState) lastState).getForm().get(0).getText(), 0));
+					stateHandler.setCurrentState("tronState");
 					
 			}
 		}

@@ -1,7 +1,6 @@
 package Logix;
 
 import java.awt.event.KeyEvent;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +12,7 @@ import Logix.State.LocalFormState;
 import Logix.State.SearchState;
 import Logix.State.TronState;
 
-public class EventHandler implements Serializable
+public class EventHandler
 {
 	private StateHandler statesHandler;
 	private int menuLevel;
@@ -143,29 +142,29 @@ public class EventHandler implements Serializable
 				state.resetGame();
 				break;
 			case KeyEvent.VK_RIGHT:
-				state.setPlayerDirection(0,"right");
+				dataStreamHandler.setPlayerDirection(0,"right");
 				break;
 	        case KeyEvent.VK_UP:
-	        	state.setPlayerDirection(0,"up");
+	        	dataStreamHandler.setPlayerDirection(0,"up");
 	        	break;
 	        case KeyEvent.VK_DOWN:
-	        	state.setPlayerDirection(0,"down");
+	        	dataStreamHandler.setPlayerDirection(0,"down");
 	        	break;
 	        case KeyEvent.VK_LEFT:
-	        	state.setPlayerDirection(0,"left");
+	        	dataStreamHandler.setPlayerDirection(0,"left");
 	        	break;
 	        	/* ---- LOCAL MULTIPLAYER ----- */
 			case KeyEvent.VK_D:
-				state.setPlayerDirection(1,"right");
+				dataStreamHandler.setPlayerDirection(1,"right");
 				break;
 	        case KeyEvent.VK_W:
-	        	state.setPlayerDirection(1,"up");
+	        	dataStreamHandler.setPlayerDirection(1,"up");
 	        	break;
 	        case KeyEvent.VK_S:
-	        	state.setPlayerDirection(1,"down");
+	        	dataStreamHandler.setPlayerDirection(1,"down");
 	        	break;
 	        case KeyEvent.VK_A:
-	        	state.setPlayerDirection(1,"left");
+	        	dataStreamHandler.setPlayerDirection(1,"left");
 	        	break;
 	        case KeyEvent.VK_SPACE:
 	        	state.resetGame();
@@ -182,24 +181,13 @@ public class EventHandler implements Serializable
 				LocalFormState menu = (LocalFormState)statesHandler.getCurrentState();
 				if(keyCode == KeyEvent.VK_ENTER)
 				{
-					if (statesHandler.getCurrentState() instanceof LocalFormState)
-					{
-						statesHandler.setCurrentState("tronState");
-						menuLevel = 3;
-					}
-					else
-					{
-						statesHandler.setCurrentState("tronState");
-						menuLevel = 4;
-					}
+					statesHandler.setCurrentState("tronState");
+					menuLevel = 3;
 					
-									
 					dataStreamHandler.getPlayers().get(0).setName(menu.getForm().get(0).getText());
 					dataStreamHandler.getPlayers().get(1).setName(menu.getForm().get(1).getText());
 					
-					TronState tron = (TronState)statesHandler.getState("tronState");
 				}
-				
 				else if(keyCode == KeyEvent.VK_ESCAPE)
 				{
 					menuLevel = 0;
@@ -252,7 +240,7 @@ public class EventHandler implements Serializable
 					menu.setPopUp(false);
 
 					dataStreamHandler = giveLast.getDataStream();
-					menuLevel = 2;
+					menuLevel = 4;
 					
 				
 					dataStreamHandler.getPlayers().get(1).setName(menu.getForm().get(0).getText());
@@ -305,7 +293,7 @@ public class EventHandler implements Serializable
 					giveLast.startSearch(menu);
 					menu.setPopUp(false);
 					dataStreamHandler = giveLast.getDataStream();
-					menuLevel = 2;
+					menuLevel = 4;
 										
 					dataStreamHandler.getPlayers().get(0).setName(menu.getForm().get(0).getText());
 					
@@ -363,19 +351,9 @@ public class EventHandler implements Serializable
 		
 	public void menuL2(int keyCode, KeyEvent e)
 		{		
-			SearchState state = (SearchState) statesHandler.getState("searchState");
-
 			if(keyCode == KeyEvent.VK_ESCAPE)
 			{
 				statesHandler.setCurrentState("menuState");
-			}
-			else if(keyCode == KeyEvent.VK_ALT)
-			{
-				if(state.isConnected() == true)
-				{					
-					statesHandler.setCurrentState("tronState");
-					TronState tron = (TronState) statesHandler.getState("tronState");
-				}
 			}
 		}
 	
@@ -430,7 +408,13 @@ public class EventHandler implements Serializable
 	public void menuL4(int keyCode)
 	{
 		TronState state = (TronState) statesHandler.getCurrentState();
-			
+		
+		int id = 0;
+		if(!statesHandler.isClient())
+		{
+			id = 1;
+		}
+		
 		switch( keyCode ) 
 		{ 
 			case KeyEvent.VK_ESCAPE:
@@ -439,16 +423,16 @@ public class EventHandler implements Serializable
 				state.resetGame();
 				break;
 			case KeyEvent.VK_RIGHT:
-				dataStreamHandler.setPlayerDirection("right");
+				dataStreamHandler.setPlayerDirection(id,"right");
 				break;
 	        case KeyEvent.VK_UP:
-	        	dataStreamHandler.setPlayerDirection("up");
+	        	dataStreamHandler.setPlayerDirection(id,"up");
 	        	break;
 	        case KeyEvent.VK_DOWN:
-	        	dataStreamHandler.setPlayerDirection("down");
+	        	dataStreamHandler.setPlayerDirection(id,"down");
 	        	break;
 	        case KeyEvent.VK_LEFT:
-	        	dataStreamHandler.setPlayerDirection("left");
+	        	dataStreamHandler.setPlayerDirection(id,"left");
 	        	break;
 	        case KeyEvent.VK_SPACE:
 	        	state.resetGame();

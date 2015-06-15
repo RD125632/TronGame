@@ -1,7 +1,5 @@
 package Logix;
 
-import java.io.Serializable;
-
 import Logix.State.GameState;
 import Logix.State.HostFormState;
 import Logix.State.JoinFormState;
@@ -11,7 +9,7 @@ import Logix.State.SearchState;
 import Logix.State.TronState;
 import Visual.GamePanel;
 
-public class StateHandler implements Serializable
+public class StateHandler
 {
 	private GameState currentState;
 	private int index;
@@ -22,6 +20,7 @@ public class StateHandler implements Serializable
 	private GameState localFormState;
 	private GameState searchState;
 	private GameState tronState;
+	private boolean isClient;
 	
 	public StateHandler(GamePanel f, DataStreamHandler dataStreamHandler)
 	{
@@ -29,6 +28,16 @@ public class StateHandler implements Serializable
 		initializeStates(dataStreamHandler);
 		index = 0;
 		currentState = menuState;
+	}
+	
+	public boolean isClient()
+	{
+		return isClient;
+	}
+	
+	public void setIsClient(boolean b)
+	{
+		isClient = b;
 	}
 	
 	public void initializeStates(DataStreamHandler dataStreamHandler) { 

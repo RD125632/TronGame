@@ -4,14 +4,13 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import Logix.Objects.InputField;
 import Visual.GamePanel;
 
-public class JoinFormState extends GameState implements Serializable
+public class JoinFormState extends GameState
 {
 	private Font menuFont;
 	private GamePanel panel;

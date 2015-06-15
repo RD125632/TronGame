@@ -6,19 +6,15 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 import Logix.DataStreamHandler;
-import Logix.StateHandler;
 
 public class Client implements Runnable{
 
 	private Socket socket;
 	private ClientController clientController;
 	private DataStreamHandler dataStreamHandler;
-	private StateHandler state;
-	private int id = 1;
 	
 	public Client(ClientController clientController, DataStreamHandler dataStreamHandler)
 	{
-		this.state = state;
 		this.clientController = clientController;
 		this.dataStreamHandler = dataStreamHandler;
 		this.dataStreamHandler.setStatus("Initialized");
@@ -51,7 +47,6 @@ public class Client implements Runnable{
 			while(true)
 			{
 				dataStreamHandler = (DataStreamHandler) ois.readObject();
-				dataStreamHandler.setId(id);
 				oos.writeObject(dataStreamHandler);
 			}
 		} catch (Exception e) 

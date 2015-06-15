@@ -1,6 +1,5 @@
 package Logix;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +7,7 @@ import Logix.Objects.Player;
 import Visual.GamePanel;
 
 
-public class LogixHandler  implements Serializable
+public class LogixHandler
 {
 	private List<Player> players;
 	private GamePanel panel;

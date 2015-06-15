@@ -2,11 +2,13 @@ package Logix.State;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.Stroke;
+import java.awt.Toolkit;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.io.Serializable;
@@ -17,18 +19,22 @@ import Visual.GamePanel;
 
 public class TronState extends GameState implements Serializable
 {
-	private GamePanel panel;
+	private static final long serialVersionUID = 1L;
 	private Font menuFont;
 	private Player winner;
 	private boolean isFinished;	
 	private DataStreamHandler dataStreamHandler;
+	private int frameWidth, frameHeight;
 	
 	public TronState(GamePanel p, DataStreamHandler dataStreamHandler)
 	{
 		this.dataStreamHandler = dataStreamHandler;
-		panel = p;
 		isFinished = false;
-		menuFont = panel.getMenuFont();
+		menuFont = p.getMenuFont();
+		
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		frameWidth = (int) screenSize.getWidth();
+		frameHeight = (int) screenSize.getHeight();
 	}
 
 
@@ -46,17 +52,17 @@ public class TronState extends GameState implements Serializable
 		g2.drawString(dataStreamHandler.getPlayers().get(1).getName(), 50, 200);
 		
 		g2.setPaint(new Color(15,15,15));
-		g2.fillRect((panel.getParent().getWidth()/2) - 700, (panel.getParent().getHeight()/2) - 500 , 1400, 1000);
+		g2.fillRect((frameWidth/2) - 700, (frameHeight/2) - 500 , 1400, 1000);
 		g2.setPaint(new Color(143, 213, 223));
 		
 		
 		Stroke s = g2.getStroke();
 		g2.setStroke(new BasicStroke(5f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER));
-		g2.drawRect((panel.getParent().getWidth()/2) - 700, (panel.getParent().getHeight()/2) - 500 , 1400, 1000);
+		g2.drawRect((frameWidth/2) - 700, (frameHeight/2) - 500 , 1400, 1000);
 		g2.setStroke(s);
 		
 		AffineTransform tx = new AffineTransform();
-		tx.translate((panel.getParent().getWidth()/2), (panel.getParent().getHeight()/2));
+		tx.translate((frameWidth/2), (frameHeight/2));
 		
 		g2.setTransform(tx);
 		
@@ -110,19 +116,7 @@ public class TronState extends GameState implements Serializable
 	}
 	
 	
-	public String getPlayerDirection(Player player)
-	{
-		return player.getCurrentDirection();
-	}
-	
-	public void setPlayerDirection(int playerID, String newDirection)
-	{
-		if(newDirection != getPlayerDirection(dataStreamHandler.getPlayers().get(playerID)))
-		{
-			dataStreamHandler.getPlayers().get(playerID).setCurrentDirection(newDirection);
-		}
-	}
-		
+
 	@Override
 	public void update() 
 	{

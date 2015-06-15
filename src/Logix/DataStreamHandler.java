@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Logix.Objects.Player;
-import Logix.State.TronState;
 
 public class DataStreamHandler implements Serializable
 {
@@ -13,9 +12,6 @@ public class DataStreamHandler implements Serializable
 	private String status = null;
 	private List<Player> playerList;
 	private boolean playersJoined = false;
-	private TronState tron;
-	private int menuLevel;
-	private int id;
 	
 	public DataStreamHandler()
 	{
@@ -56,32 +52,18 @@ public class DataStreamHandler implements Serializable
 		return playersJoined;
 	}
 	
-	public void setTronState(TronState tron)
+	public String getPlayerDirection(Player player)
 	{
-		this.tron = tron;
+		return player.getCurrentDirection();
 	}
 	
-	public void setPlayerDirection(String direction)
+	public void setPlayerDirection(int playerID, String newDirection)
 	{
-		System.out.println("OMGASH");
-		switch(direction) 
-		{ 
-			case "right":
-				tron.setPlayerDirection(id,"right");
-				break;
-	        case "up":
-	        	tron.setPlayerDirection(id,"up");
-	        	break;
-	        case "down":
-	        	tron.setPlayerDirection(id,"down");
-	        	break;
-	        case "left":
-	        	tron.setPlayerDirection(id,"left");
-	        	break;
-		}	
+		if(newDirection != getPlayerDirection(getPlayers().get(playerID)))
+		{
+			getPlayers().get(playerID).setCurrentDirection(newDirection);
+		}
 	}
-	public void setId(int id)
-	{
-		this.id = id;
-	}
+		
+	
 }

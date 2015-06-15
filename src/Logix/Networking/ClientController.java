@@ -4,7 +4,6 @@ package Logix.Networking;
 import java.net.InetAddress;
 
 import Logix.DataStreamHandler;
-import Logix.StateHandler;
 
 public class ClientController {
 	

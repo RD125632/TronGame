@@ -4,10 +4,12 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.io.Serializable;
 
 
-public class InputField {
+public class InputField implements Serializable{
 
+	private static final long serialVersionUID = 1L;
 	private String text;
 	private int x, y, width, height;
 	private boolean isSelected;
